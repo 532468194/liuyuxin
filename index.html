@@ -7,7 +7,8 @@
   <title>LIU YUXIN · Charlotte — Fashion Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <!-- 字体：优先国内CDN，Google Fonts备用 -->
+  <link href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 
   <style>
     /* =========================================================
@@ -1218,8 +1219,10 @@ const ldTxt = document.getElementById('ld-text');
   s.style.animationDelay=(i*.09)+'s';
   ldTxt.appendChild(s);
 });
+// 兜底：最多4秒无论如何隐藏loader（防止字体CDN阻塞）
+setTimeout(()=>document.getElementById('loader').classList.add('out'), 4000);
 window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('out'), 2300);
+  setTimeout(()=>document.getElementById('loader').classList.add('out'), 1800);
 });
 
 /* -------------------------------------------------------
