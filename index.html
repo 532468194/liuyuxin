@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="刘雨欣 Charlotte Liu — Fashion Designer Portfolio 服装设计师作品集" />
+  <title>LIU YUXIN · Charlotte — Fashion Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       CSS VARIABLES
+    ========================================================= */
+    :root {
+      --bg:        #080808;
+      --bg2:       #111111;
+      --bgcard:    #161616;
+      --txt:       #f0ebe0;
+      --txt2:      #7a7570;
+      --txt3:      #3e3a35;
+      --gold:      #c8a96e;
+      --gold2:     #e8d4a8;
+      --gold3:     #8a6e3a;
+      --border:    rgba(200,169,110,.14);
+      --border2:   rgba(240,235,224,.06);
+      --ease:      cubic-bezier(.16,1,.3,1);
+      --ff-title:  'Cormorant Garamond', 'Noto Serif SC', 'SimSun', serif;
+      --ff-body:   'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+    [data-theme="light"] {
+      --bg:      #f5f0e8;
+      --bg2:     #ede8df;
+      --bgcard:  #e5e0d8;
+      --txt:     #1a1510;
+      --txt2:    #5a5550;
+      --txt3:    #9a9590;
+      --gold:    #8a6e3a;
+      --gold2:   #c8a96e;
+      --gold3:   #5a4520;
+      --border:  rgba(138,110,58,.18);
+      --border2: rgba(26,21,16,.07);
+    }
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; cursor:none; }
+    body {
+      background:var(--bg); color:var(--txt);
+      font-family:var(--ff-body); font-size:16px; line-height:1.7;
+      overflow-x:hidden;
+      transition:background .5s ease, color .5s ease;
+    }
+    ::selection { background:var(--gold); color:var(--bg); }
+    a { color:inherit; text-decoration:none; }
+    button { font-family:inherit; }
+
+    ::-webkit-scrollbar { width:2px; }
+    ::-webkit-scrollbar-track { background:var(--bg2); }
+    ::-webkit-scrollbar-thumb { background:var(--gold); }
+
+    /* =========================================================
+       CUSTOM CURSOR
+    ========================================================= */
+    #cur-dot {
+      width:6px; height:6px; background:var(--gold); border-radius:50%;
+      position:fixed; top:0; left:0; z-index:9999; pointer-events:none;
+      transform:translate(-50%,-50%);
+      transition:width .3s, height .3s, background .3s;
+    }
+    #cur-ring {
+      width:36px; height:36px; border:1px solid var(--gold); border-radius:50%;
+      position:fixed; top:0; left:0; z-index:9998; pointer-events:none;
+      transform:translate(-50%,-50%);
+      transition:width .3s, height .3s, opacity .3s, border-color .3s;
+    }
+    #cur-dot.hov  { width:50px; height:50px; background:rgba(200,169,110,.12); }
+    #cur-ring.hov { width:0; height:0; opacity:0; }
+
+    /* =========================================================
+       PAGE LOADER
+    ========================================================= */
+    #loader {
+      position:fixed; inset:0; background:var(--bg); z-index:8000;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      transition:opacity .8s ease, visibility .8s ease;
+    }
+    #loader.out { opacity:0; visibility:hidden; }
+    .ld-text {
+      font-family:var(--ff-title); font-size:clamp(2.4rem,8vw,6rem);
+      font-weight:300; letter-spacing:.35em; color:var(--txt);
+      display:flex; overflow:hidden;
+    }
+    .ld-ch {
+      display:inline-block; opacity:0; transform:translateY(110%);
+      animation:ld-drop .55s var(--ease) forwards;
+    }
+    @keyframes ld-drop { to { opacity:1; transform:translateY(0); } }
+    .ld-line {
+      width:0; height:1px; background:var(--gold); margin-top:1.8rem;
+      animation:ld-line 1.4s ease .4s forwards;
+    }
+    @keyframes ld-line { to { width:120px; } }
+    .ld-sub {
+      font-size:.7rem; letter-spacing:.5em; text-transform:uppercase;
+      color:var(--gold); margin-top:1.2rem; opacity:0;
+      animation:fadein .5s ease 1.2s forwards;
+    }
+    @keyframes fadein { to { opacity:1; } }
+
+    /* =========================================================
+       THEME TOGGLE
+    ========================================================= */
+    #theme-btn {
+      position:fixed; top:26px; right:76px; z-index:800;
+      width:40px; height:40px; border-radius:50%; border:1px solid var(--border);
+      background:transparent; color:var(--txt); cursor:none;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; transition:all .3s ease;
+    }
+    #theme-btn:hover { border-color:var(--gold); color:var(--gold); transform:rotate(90deg); }
+
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
+    #nav {
+      position:fixed; top:0; left:0; right:0; z-index:700;
+      padding:24px 60px;
+      display:flex; align-items:center; justify-content:space-between;
+      transition:all .4s ease;
+    }
+    #nav.scrolled {
+      padding:15px 60px;
+      background:rgba(8,8,8,.78);
+      backdrop-filter:blur(22px) saturate(180%);
+      -webkit-backdrop-filter:blur(22px) saturate(180%);
+      border-bottom:1px solid var(--border2);
+    }
+    [data-theme="light"] #nav.scrolled { background:rgba(245,240,232,.82); }
+    .nav-logo {
+      font-family:var(--ff-title); font-size:1.35rem; font-weight:500;
+      letter-spacing:.18em; text-transform:uppercase; cursor:none;
+    }
+    .nav-logo span { color:var(--gold); }
+    .nav-links { display:flex; list-style:none; gap:44px; }
+    .nav-links a {
+      font-size:.68rem; letter-spacing:.38em; text-transform:uppercase;
+      color:var(--txt2); position:relative; transition:color .3s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:1px; background:var(--gold); transition:width .3s;
+    }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-ham {
+      display:none; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:none; padding:4px;
+    }
+    .nav-ham span {
+      display:block; width:24px; height:1px;
+      background:var(--txt); transition:all .3s;
+    }
+
+    /* Mobile overlay */
+    #mob-menu {
+      position:fixed; inset:0; background:var(--bg); z-index:690;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:2.5rem; opacity:0; visibility:hidden; transition:all .4s ease;
+    }
+    #mob-menu.open { opacity:1; visibility:visible; }
+    #mob-menu a {
+      font-family:var(--ff-title); font-size:clamp(2.5rem,10vw,5rem);
+      font-weight:300; letter-spacing:.12em; transition:color .3s;
+    }
+    #mob-menu a:hover { color:var(--gold); }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    #hero {
+      position:relative; height:100vh; min-height:600px;
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+    }
+    #c-hero { position:absolute; inset:0; z-index:0; }
+    .hero-body {
+      position:relative; z-index:2; text-align:center; padding:0 24px;
+    }
+    .hero-eyebrow {
+      font-size:.68rem; letter-spacing:.65em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:2rem;
+      opacity:0; transform:translateY(18px);
+      animation:slideup .8s var(--ease) 1.8s forwards;
+    }
+    .hero-name {
+      font-family:var(--ff-title);
+      font-size:clamp(4rem,13vw,12rem);
+      font-weight:300; line-height:.92; letter-spacing:-.02em;
+      color:var(--txt); display:block;
+      opacity:0; transform:translateY(40px);
+      animation:slideup 1s var(--ease) 2s forwards;
+    }
+    .hero-en {
+      font-family:var(--ff-title);
+      font-size:clamp(1.3rem,4.5vw,3.5rem);
+      font-weight:300; letter-spacing:.55em; color:var(--txt2);
+      display:block; margin-top:.5rem;
+      opacity:0; transform:translateY(28px);
+      animation:slideup 1s var(--ease) 2.2s forwards;
+    }
+    .hero-line {
+      width:0; height:1px; background:var(--border); margin:2.5rem auto;
+      animation:ld-line 1s ease 2.7s forwards;
+    }
+    .hero-tag {
+      font-family:var(--ff-title); font-style:italic;
+      font-size:clamp(.9rem,2.2vw,1.5rem); font-weight:300;
+      color:var(--txt2); letter-spacing:.08em;
+      opacity:0; transform:translateY(18px);
+      animation:slideup .8s var(--ease) 3s forwards;
+    }
+    .hero-meta {
+      margin-top:2.8rem; display:flex; align-items:center;
+      justify-content:center; gap:2rem;
+      opacity:0; animation:fadein .8s ease 3.4s forwards;
+    }
+    .hero-meta-i { font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; color:var(--txt3); }
+    .hero-meta-sep { width:1px; height:14px; background:var(--border); }
+    .hero-scroll {
+      position:absolute; bottom:40px; left:50%;
+      transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:10px;
+      opacity:0; animation:fadein .8s ease 3.8s forwards; cursor:none;
+    }
+    .hero-scroll-bar {
+      width:1px; height:52px;
+      background:linear-gradient(to bottom, var(--gold), transparent);
+      animation:pulse 2s ease-in-out infinite;
+    }
+    .hero-scroll-txt {
+      font-size:.58rem; letter-spacing:.5em; text-transform:uppercase;
+      color:var(--txt3); writing-mode:vertical-rl;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:.35;transform:scaleY(.6)} }
+    @keyframes slideup { to { opacity:1; transform:translateY(0); } }
+
+    /* =========================================================
+       SECTION COMMONS
+    ========================================================= */
+    .sec { padding:120px 60px; position:relative; }
+    .sec-hd { margin-bottom:72px; }
+    .sec-label {
+      font-size:.63rem; letter-spacing:.52em; text-transform:uppercase;
+      color:var(--gold); display:flex; align-items:center; gap:14px;
+      margin-bottom:1.4rem;
+    }
+    .sec-label::before {
+      content:''; display:block; width:28px; height:1px; background:var(--gold);
+    }
+    .sec-title {
+      font-family:var(--ff-title);
+      font-size:clamp(2.8rem,7vw,7rem);
+      font-weight:300; line-height:.95; letter-spacing:-.02em;
+    }
+    .sec-title em { font-style:italic; color:var(--gold); }
+
+    /* Scroll reveal */
+    .rv {
+      opacity:0; transform:translateY(36px);
+      transition:opacity .9s var(--ease), transform .9s var(--ease);
+    }
+    .rv.in { opacity:1; transform:none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s}
+    .d3{transition-delay:.3s} .d4{transition-delay:.4s}
+    .d5{transition-delay:.5s}
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+    #about {
+      display:grid; grid-template-columns:1fr 1.4fr;
+      gap:80px; align-items:start;
+    }
+    .about-photo-wrap { position:sticky; top:120px; }
+    .about-photo {
+      width:100%; aspect-ratio:3/4;
+      background:var(--bgcard); border:1px solid var(--border2);
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; gap:10px; color:var(--txt3);
+      font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
+      position:relative; overflow:hidden;
+    }
+    .about-photo::before {
+      content:''; position:absolute; inset:14px;
+      border:1px dashed var(--border);
+    }
+    .about-photo-ico { font-size:2.2rem; opacity:.22; }
+    .about-photo-badge {
+      position:absolute; bottom:18px; right:18px;
+      background:var(--gold); color:var(--bg);
+      padding:5px 12px; font-size:.6rem; letter-spacing:.3em; text-transform:uppercase;
+    }
+    .about-bio {
+      font-family:var(--ff-title); font-size:clamp(1rem,1.8vw,1.35rem);
+      font-weight:300; line-height:1.9; color:var(--txt); margin-bottom:2.5rem;
+    }
+    .about-bio strong { color:var(--gold); font-weight:500; }
+    .about-hl {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:1.4rem; margin-bottom:3.5rem;
+    }
+    .hl-item { border-left:1px solid var(--gold); padding-left:1.2rem; }
+    .hl-num {
+      font-family:var(--ff-title); font-size:2.4rem; font-weight:300;
+      color:var(--gold); line-height:1; margin-bottom:.3rem;
+    }
+    .hl-lbl { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--txt2); }
+
+    /* Timeline */
+    .tl-head {
+      font-size:.65rem; letter-spacing:.45em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:2rem;
+    }
+    .tl { position:relative; padding-left:22px; }
+    .tl::before {
+      content:''; position:absolute; left:0; top:8px; bottom:8px;
+      width:1px; background:var(--border);
+    }
+    .tl-item { position:relative; padding-bottom:2.2rem; }
+    .tl-item:last-child { padding-bottom:0; }
+    .tl-item::before {
+      content:''; position:absolute; left:-26px; top:8px;
+      width:6px; height:6px; border-radius:50%;
+      background:var(--gold); border:2px solid var(--bg);
+    }
+    .tl-date { font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+    .tl-role { font-family:var(--ff-title); font-size:1.05rem; font-weight:500; color:var(--txt); margin-bottom:.25rem; }
+    .tl-org { font-size:.8rem; color:var(--txt2); }
+    .tl-desc { font-size:.8rem; color:var(--txt3); margin-top:.45rem; line-height:1.6; }
+
+    /* =========================================================
+       WORKS
+    ========================================================= */
+    #works { background:var(--bg2); }
+    .works-filter {
+      display:flex; gap:0; margin-bottom:56px;
+      border-bottom:1px solid var(--border2);
+      overflow-x:auto; scrollbar-width:none;
+    }
+    .works-filter::-webkit-scrollbar { display:none; }
+    .filt {
+      background:none; border:none; color:var(--txt3);
+      font-family:var(--ff-body); font-size:.68rem;
+      letter-spacing:.35em; text-transform:uppercase;
+      padding:11px 22px; cursor:none; white-space:nowrap;
+      position:relative; transition:color .3s;
+    }
+    .filt::after {
+      content:''; position:absolute; bottom:-1px; left:0;
+      width:0; height:1px; background:var(--gold); transition:width .3s;
+    }
+    .filt:hover, .filt.on { color:var(--gold); }
+    .filt.on::after { width:100%; }
+
+    /* Masonry grid */
+    .masonry { columns:3; column-gap:18px; }
+    .wcard {
+      break-inside:avoid; margin-bottom:18px;
+      cursor:none; position:relative; overflow:hidden;
+      background:var(--bgcard);
+      transition:transform .4s var(--ease);
+    }
+    .wcard.hide { display:none; }
+    .wcard:hover { transform:translateY(-4px); }
+
+    .wimg img { position:relative; z-index:1; }
+    .wimg {
+      width:100%; background:var(--bg);
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; gap:8px; color:var(--txt3);
+      font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+      position:relative; overflow:hidden;
+      transition:transform .6s var(--ease);
+    }
+    .wcard:hover .wimg { transform:scale(1.04); }
+    .wov {
+      position:absolute; inset:0;
+      background:rgba(8,8,8,.88);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:10px; padding:20px; z-index:2;
+      opacity:0; transition:opacity .4s ease;
+    }
+    .wcard:hover .wov { opacity:1; }
+    .wov-series { font-size:.6rem; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+    .wov-title { font-family:var(--ff-title); font-size:1.3rem; color:var(--txt); text-align:center; line-height:1.3; }
+    .wov-btn {
+      margin-top:6px; border:1px solid var(--gold); color:var(--gold);
+      background:none; padding:7px 18px; font-size:.62rem;
+      letter-spacing:.3em; text-transform:uppercase; cursor:none;
+      transition:all .3s;
+    }
+    .wov-btn:hover { background:var(--gold); color:var(--bg); }
+    .winfo { padding:14px 16px 18px; }
+    .wcat { font-size:.58rem; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); margin-bottom:5px; }
+    .wtitle { font-family:var(--ff-title); font-size:1.05rem; color:var(--txt); margin-bottom:3px; }
+    .wyear { font-size:.68rem; color:var(--txt3); }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+    #modal {
+      position:fixed; inset:0; z-index:9500;
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; visibility:hidden; transition:all .4s ease;
+    }
+    #modal.open { opacity:1; visibility:visible; }
+    .modal-bg {
+      position:absolute; inset:0;
+      background:rgba(0,0,0,.92);
+      backdrop-filter:blur(12px);
+    }
+    .modal-box {
+      position:relative; z-index:1; width:90%; max-width:900px; max-height:90vh;
+      background:var(--bg2); border:1px solid var(--border2);
+      display:grid; grid-template-columns:1fr 1fr; overflow:hidden;
+      transform:scale(.93) translateY(20px);
+      transition:transform .4s var(--ease);
+    }
+    #modal.open .modal-box { transform:scale(1) translateY(0); }
+    .modal-img {
+      background:var(--bgcard); aspect-ratio:3/4;
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; gap:10px; color:var(--txt3);
+      font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+    }
+    .modal-img-ico { font-size:2rem; opacity:.2; }
+    .modal-body {
+      padding:44px; overflow-y:auto;
+      display:flex; flex-direction:column; justify-content:center;
+    }
+    .modal-cat { font-size:.58rem; letter-spacing:.5em; text-transform:uppercase; color:var(--gold); margin-bottom:.9rem; }
+    .modal-title { font-family:var(--ff-title); font-size:2rem; font-weight:400; line-height:1.25; margin-bottom:.7rem; }
+    .modal-series { font-family:var(--ff-title); font-style:italic; font-size:.95rem; color:var(--txt2); margin-bottom:1.8rem; }
+    .modal-rule { width:38px; height:1px; background:var(--gold); margin-bottom:1.8rem; }
+    .modal-desc { font-size:.88rem; line-height:1.85; color:var(--txt2); margin-bottom:1.8rem; }
+    .modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+    .modal-mi { border-top:1px solid var(--border2); padding-top:.7rem; }
+    .modal-ml { font-size:.58rem; letter-spacing:.3em; text-transform:uppercase; color:var(--txt3); margin-bottom:.25rem; }
+    .modal-mv { font-size:.82rem; color:var(--txt); }
+    .modal-close {
+      position:absolute; top:16px; right:16px;
+      width:38px; height:38px; border:1px solid var(--border);
+      background:none; color:var(--txt); cursor:none;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; z-index:2; transition:all .3s;
+    }
+    .modal-close:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* =========================================================
+       SKILLS
+    ========================================================= */
+    #skills {
+      display:grid; grid-template-columns:1fr 1fr; gap:80px;
+    }
+    .skill-intro {
+      font-family:var(--ff-title); font-size:clamp(1rem,1.8vw,1.3rem);
+      font-weight:300; line-height:1.9; color:var(--txt2); margin-top:2rem;
+    }
+    .skill-intro strong { color:var(--txt); font-weight:400; }
+    .sk-sub { font-size:.63rem; letter-spacing:.45em; text-transform:uppercase; color:var(--gold); margin-bottom:1.4rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:9px; margin-top:.9rem; }
+    .tag {
+      border:1px solid var(--border); color:var(--txt2);
+      padding:6px 15px; font-size:.65rem; letter-spacing:.18em;
+      text-transform:uppercase; transition:all .3s;
+    }
+    .tag:hover { border-color:var(--gold); color:var(--gold); }
+    .sk-item { margin-bottom:1.9rem; }
+    .sk-hd { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:9px; }
+    .sk-name { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--txt); }
+    .sk-val { font-family:var(--ff-title); font-size:1rem; color:var(--gold); }
+    .sk-track { height:1px; background:var(--border2); position:relative; overflow:visible; }
+    .sk-fill {
+      position:absolute; top:0; left:0; height:100%; width:0;
+      background:linear-gradient(to right, var(--gold3), var(--gold));
+      transition:width 1.6s var(--ease);
+    }
+    .sk-dot {
+      position:absolute; top:50%; right:0;
+      transform:translateY(-50%);
+      width:5px; height:5px; border-radius:50%;
+      background:var(--gold); opacity:0;
+      transition:opacity 1.6s ease;
+    }
+
+    /* =========================================================
+       AWARDS
+    ========================================================= */
+    .awards-wrap {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:1px; background:var(--border2);
+      border:1px solid var(--border2); margin-top:56px;
+    }
+    .award {
+      background:var(--bg); padding:28px 26px;
+      transition:background .3s;
+    }
+    [data-theme="light"] .award { background:var(--bg2); }
+    .award:hover { background:var(--bgcard); }
+    .award-yr { font-family:var(--ff-title); font-size:2rem; font-weight:300; color:var(--gold); margin-bottom:.4rem; }
+    .award-t { font-size:.78rem; color:var(--txt); line-height:1.6; margin-bottom:.25rem; }
+    .award-o { font-size:.68rem; color:var(--txt3); }
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+    #contact { background:var(--bg2); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; }
+    .c-info h3 {
+      font-family:var(--ff-title); font-size:1.75rem; font-weight:300;
+      line-height:1.45; margin-bottom:.9rem;
+    }
+    .c-info p { font-size:.88rem; color:var(--txt2); line-height:1.8; margin-bottom:2.2rem; }
+    .c-links { display:flex; flex-direction:column; gap:.8rem; }
+    .c-link {
+      display:flex; align-items:center; gap:14px;
+      color:var(--txt2); font-size:.84rem;
+      padding:11px 0; border-bottom:1px solid var(--border2);
+      transition:color .3s;
+    }
+    .c-link:hover { color:var(--gold); }
+    .c-ico {
+      width:34px; height:34px; border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:.9rem; flex-shrink:0; transition:all .3s;
+    }
+    .c-link:hover .c-ico { border-color:var(--gold); color:var(--gold); }
+    .c-lbl { font-size:.58rem; letter-spacing:.3em; text-transform:uppercase; color:var(--txt3); display:block; margin-bottom:2px; }
+    .c-form { display:flex; flex-direction:column; gap:1.4rem; }
+    .fg label { display:block; font-size:.58rem; letter-spacing:.4em; text-transform:uppercase; color:var(--txt3); margin-bottom:7px; }
+    .fg input, .fg textarea {
+      width:100%; background:transparent;
+      border:none; border-bottom:1px solid var(--border2);
+      color:var(--txt); font-family:var(--ff-body); font-size:.88rem;
+      padding:9px 0; outline:none; resize:none; cursor:none;
+      transition:border-color .3s;
+    }
+    .fg input:focus, .fg textarea:focus { border-bottom-color:var(--gold); }
+    .fg textarea { min-height:90px; }
+    .c-submit {
+      background:none; border:1px solid var(--gold); color:var(--gold);
+      font-family:var(--ff-body); font-size:.68rem; letter-spacing:.42em;
+      text-transform:uppercase; padding:15px 38px;
+      cursor:none; align-self:flex-start;
+      position:relative; overflow:hidden; transition:color .4s;
+    }
+    .c-submit::before {
+      content:''; position:absolute; inset:0;
+      background:var(--gold); transform:scaleX(0); transform-origin:left;
+      transition:transform .4s ease; z-index:-1;
+    }
+    .c-submit:hover::before { transform:scaleX(1); }
+    .c-submit:hover { color:var(--bg); }
+
+    /* =========================================================
+       FOOTER / MARQUEE
+    ========================================================= */
+    footer { border-top:1px solid var(--border2); overflow:hidden; }
+    .mq-wrap { padding:18px 0; border-bottom:1px solid var(--border2); overflow:hidden; }
+    .mq-track {
+      display:flex; width:max-content;
+      animation:mq-scroll 22s linear infinite;
+    }
+    .mq-track:hover { animation-play-state:paused; }
+    .mq-seg {
+      font-family:var(--ff-title); font-size:1.05rem; font-weight:300;
+      letter-spacing:.22em; color:var(--txt3); padding:0 38px; white-space:nowrap;
+    }
+    .mq-seg span { color:var(--gold); }
+    @keyframes mq-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .foot-btm {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:28px 60px;
+    }
+    .foot-logo { font-family:var(--ff-title); font-size:1.1rem; font-weight:300; letter-spacing:.22em; color:var(--txt3); }
+    .foot-copy { font-size:.62rem; letter-spacing:.2em; color:var(--txt3); }
+    .foot-top {
+      font-size:.62rem; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--txt2); cursor:none; display:flex; align-items:center; gap:7px;
+      transition:color .3s;
+    }
+    .foot-top:hover { color:var(--gold); }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width:1100px) {
+      .masonry { columns:2; }
+      #about { grid-template-columns:1fr; gap:56px; }
+      .about-photo-wrap { position:relative; top:auto; max-width:380px; }
+      #skills { grid-template-columns:1fr; gap:56px; }
+      .contact-grid { grid-template-columns:1fr; gap:56px; }
+      .awards-wrap { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:768px) {
+      .sec { padding:64px 24px; }
+      #nav, #nav.scrolled { padding:18px 24px; }
+      .nav-links { display:none; }
+      .nav-ham { display:flex; }
+      #theme-btn { right:64px; top:17px; }
+      .masonry { columns:1; }
+      .awards-wrap { grid-template-columns:1fr; }
+      .modal-box { grid-template-columns:1fr; max-height:95vh; width:96%; }
+      .modal-img { aspect-ratio:16/9; }
+      .modal-body { padding:24px; }
+      .hero-meta { display:none; }
+      .foot-btm { padding:22px 24px; flex-direction:column; gap:14px; text-align:center; }
+    }
+    @media (max-width:480px) {
+      .sec { padding:50px 18px; }
+      .about-hl { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== CURSOR ===================== -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- ===================== LOADER ===================== -->
+<div id="loader">
+  <div class="ld-text" id="ld-text"></div>
+  <div class="ld-line"></div>
+  <div class="ld-sub">Fashion Designer · 服装设计师</div>
+</div>
+
+<!-- ===================== THEME BTN ===================== -->
+<button id="theme-btn" title="切换主题">☽</button>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">LIU <span>·</span> YUXIN</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-ham" id="nav-ham" aria-label="菜单">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div id="mob-menu">
+  <a href="#about"   class="mob-lnk">About</a>
+  <a href="#works"   class="mob-lnk">Works</a>
+  <a href="#skills"  class="mob-lnk">Skills</a>
+  <a href="#contact" class="mob-lnk">Contact</a>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero">
+  <canvas id="c-hero"></canvas>
+  <div class="hero-body">
+    <div class="hero-eyebrow">Fashion Designer · 2026 Portfolio · Beijing × Milan × Paris</div>
+    <span class="hero-name" id="hero-name">刘雨欣</span>
+    <span class="hero-en">Charlotte Liu</span>
+    <div class="hero-line"></div>
+    <p class="hero-tag">传统文化的解构者 &nbsp;·&nbsp; Deconstructing Heritage into Modernity</p>
+    <div class="hero-meta">
+      <span class="hero-meta-i">北京服装学院</span>
+      <span class="hero-meta-sep"></span>
+      <span class="hero-meta-i">Politecnico di Milano</span>
+      <span class="hero-meta-sep"></span>
+      <span class="hero-meta-i">Paris Showcase 2024</span>
+    </div>
+  </div>
+  <div class="hero-scroll" onclick="goTo('#about')">
+    <div class="hero-scroll-bar"></div>
+    <span class="hero-scroll-txt">Scroll</span>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="sec">
+  <!-- Left: photo -->
+  <div class="about-photo-wrap rv">
+    <div class="about-photo">
+      <div class="about-photo-ico">✦</div>
+      <span>Your Photo Here</span>
+      <span style="font-size:.54rem;opacity:.45">建议尺寸 800 × 1067 px</span>
+      <div class="about-photo-badge">Charlotte · 刘雨欣</div>
+    </div>
+  </div>
+
+  <!-- Right: content -->
+  <div>
+    <div class="sec-hd rv">
+      <div class="sec-label">About Me</div>
+      <h2 class="sec-title">关于<em>我</em></h2>
+    </div>
+
+    <p class="about-bio rv d1">
+      北京服装学院<strong>硕士研究生</strong>，米兰理工大学交换学者。以<strong>传统文化创新</strong>为设计语言，
+      探索东方美学在现代服装中的叙事可能。2024 年，设计作品于<strong>法国巴黎市政厅</strong>走秀展出，
+      在国际舞台传递东方时尚声音。参与 CCTV《中国诗词大会》、中国国际时装周等多项<strong>国家级文化项目</strong>，
+      担任设计与项目管理助理，全程参与从概念策划到现场协调的完整流程。
+    </p>
+
+    <div class="about-hl rv d2">
+      <div class="hl-item"><div class="hl-num">10<span style="font-size:1.4rem">+</span></div><div class="hl-lbl">设计奖项</div></div>
+      <div class="hl-item"><div class="hl-num">5<span style="font-size:1.4rem">+</span></div><div class="hl-lbl">年设计经验</div></div>
+      <div class="hl-item"><div class="hl-num">3</div><div class="hl-lbl">语言能力</div></div>
+      <div class="hl-item"><div class="hl-num">2</div><div class="hl-lbl">国际院校经历</div></div>
+    </div>
+
+    <div class="rv d3">
+      <div class="tl-head">教育 &amp; 经历 · Education &amp; Experience</div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-date">2024.09 — 2025.07</div>
+          <div class="tl-role">研究生交换生</div>
+          <div class="tl-org">Politecnico di Milano · 时尚系统管理</div>
+          <div class="tl-desc">深耕意大利高定与时尚商业生态体系，拓展国际视野</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2023.09 — 至今</div>
+          <div class="tl-role">硕士研究生 · 副班长</div>
+          <div class="tl-org">北京服装学院 · 设计学 / 服装设计与管理</div>
+          <div class="tl-desc">研究"传统文化创新的设计现代性评价体系"，获研究生推免资格</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2023—2025</div>
+          <div class="tl-role">设计 &amp; 项目管理助理</div>
+          <div class="tl-org">CCTV《中国诗词大会》/ 中国国际时装周 / 运河文化时尚大赏</div>
+          <div class="tl-desc">参与国家级文化项目，负责从概念策划、设计执行到现场协调的全流程</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2022.07 — 2022.10</div>
+          <div class="tl-role">活动策划研究岗</div>
+          <div class="tl-org">中国互联网协会</div>
+          <div class="tl-desc">设计第八届中国互联网法治大会视觉物料，负责论坛协调</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2021.07 — 2021.10</div>
+          <div class="tl-role">电商设计实习生</div>
+          <div class="tl-org">绫致时装 · BESTSELLER</div>
+          <div class="tl-desc">网店页面制作、图片处理及公众号推送设计</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2020.06 — 2021.10</div>
+          <div class="tl-role">服装设计助理</div>
+          <div class="tl-org">北京禾力文化发展有限公司</div>
+          <div class="tl-desc">资讯搜集、报告撰写、影棚跟拍与辅助设计工作</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2019.09 — 2023.07</div>
+          <div class="tl-role">学士 · GPA 3.95/4 · 班级第一</div>
+          <div class="tl-org">北京工业大学 · 服装与服饰设计</div>
+          <div class="tl-desc">专业前 10%，校学生会干部，多项校级荣誉，获优秀毕业设计证书</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORKS ===================== -->
+<section id="works" class="sec">
+  <div class="sec-hd rv">
+    <div class="sec-label">Portfolio</div>
+    <h2 class="sec-title">作品<em>集</em></h2>
+  </div>
+
+  <div class="works-filter rv d1">
+    <button class="filt on"  data-f="all">All</button>
+    <button class="filt" data-f="collection">成衣系列</button>
+    <button class="filt" data-f="heritage">文化复原</button>
+    <button class="filt" data-f="couture">礼服·高定</button>
+    <button class="filt" data-f="experimental">实验性</button>
+    <button class="filt" data-f="visual">视觉传达</button>
+    <button class="filt" data-f="practice">项目实践</button>
+  </div>
+
+  <div class="masonry" id="wgrid">
+
+    <div class="wcard rv" data-c="experimental" data-w="0">
+      <div class="wimg" style="height:420px">
+        <img src="images/p37_img01_1600x2133.jpeg" alt="东方叙事" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">Ch.01 · 毕业设计</span>
+          <span class="wov-title">东方叙事<br>Oriental Narrative</span>
+          <button class="wov-btn" onclick="openM(0)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">实验性 · Experimental</div>
+        <div class="wtitle">东方叙事 · Oriental Narrative</div>
+        <div class="wyear">2023 · 毕业设计</div>
+      </div>
+    </div>
+
+    <div class="wcard rv d1" data-c="heritage" data-w="1">
+      <div class="wimg" style="height:320px">
+        <img src="images/p43_img01_2183x1543.jpeg" alt="南宋婚服复原" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">纺织学报 · 核心期刊</span>
+          <span class="wov-title">南宋婚服复原<br>Song Bridal Reconstruction</span>
+          <button class="wov-btn" onclick="openM(1)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">文化复原 · Heritage</div>
+        <div class="wtitle">南宋五品官婚服复原</div>
+        <div class="wyear">2024 · 发表于《纺织学报》</div>
+      </div>
+    </div>
+
+    <div class="wcard rv d2" data-c="couture" data-w="2">
+      <div class="wimg" style="height:530px">
+        <img src="images/p56_img01_1280x1920.jpeg" alt="丝路华章" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">巴黎市政厅 · 2024</span>
+          <span class="wov-title">丝路华章<br>Silk Road Elegance</span>
+          <button class="wov-btn" onclick="openM(2)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">礼服·高定 · Couture</div>
+        <div class="wtitle">丝路华章 · Silk Road Elegance</div>
+        <div class="wyear">2024 · 法国巴黎市政厅展出</div>
+      </div>
+    </div>
+
+    <div class="wcard rv d1" data-c="collection" data-w="3">
+      <div class="wimg" style="height:360px">
+        <img src="images/p05_img01_3638x1507.jpeg" alt="解构重构" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">Ch.01 · Project 1</span>
+          <span class="wov-title">解构·重构<br>Deconstruct &amp; Reconstruct</span>
+          <button class="wov-btn" onclick="openM(3)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">成衣系列 · Collection</div>
+        <div class="wtitle">解构·重构 系列</div>
+        <div class="wyear">2023</div>
+      </div>
+    </div>
+
+    <div class="wcard rv d2" data-c="practice" data-w="4">
+      <div class="wimg" style="height:400px">
+        <img src="images/p47_img01_2566x1318.jpeg" alt="诗意栖居" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">CCTV · 中国诗词大会</span>
+          <span class="wov-title">诗意栖居<br>Poetic Dwelling</span>
+          <button class="wov-btn" onclick="openM(4)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">项目实践 · Project</div>
+        <div class="wtitle">CCTV《中国诗词大会》服装设计</div>
+        <div class="wyear">2023—2025 · 多届</div>
+      </div>
+    </div>
+
+    <div class="wcard rv d3" data-c="practice" data-w="5">
+      <div class="wimg" style="height:300px">
+        <img src="images/p51_img01_2126x1510.jpeg" alt="漕运往事" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">运河文化时尚大赏</span>
+          <span class="wov-title">漕运往事<br>Canal Heritage</span>
+          <button class="wov-btn" onclick="openM(5)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">项目实践 · Cultural</div>
+        <div class="wtitle">运河文化时尚大赏</div>
+        <div class="wyear">2023—2025 · 多届参与</div>
+      </div>
+    </div>
+
+    <div class="wcard rv" data-c="visual" data-w="6">
+      <div class="wimg" style="height:450px">
+        <img src="images/p55_img01_1080x1620.jpeg" alt="影像叙事" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">Ch.02 · 视觉传达</span>
+          <span class="wov-title">影像叙事<br>Visual Narrative</span>
+          <button class="wov-btn" onclick="openM(6)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">视觉传达 · Visual</div>
+        <div class="wtitle">影像叙事摄影系列</div>
+        <div class="wyear">2022—2024</div>
+      </div>
+    </div>
+
+    <div class="wcard rv d1" data-c="collection" data-w="7">
+      <div class="wimg" style="height:350px">
+        <img src="images/p40_img01_1179x1904.jpeg" alt="当代游牧" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <div class="wov">
+          <span class="wov-series">Ch.01 · Mini Project</span>
+          <span class="wov-title">当代游牧<br>Contemporary Nomad</span>
+          <button class="wov-btn" onclick="openM(7)">View Details</button>
+        </div>
+      </div>
+      <div class="winfo">
+        <div class="wcat">成衣系列 · Collection</div>
+        <div class="wtitle">当代游牧 · Mini Collection</div>
+        <div class="wyear">2024 · 米兰理工大学</div>
+      </div>
+    </div>
+
+  </div><!-- /masonry -->
+</section>
+
+<!-- ===================== MODAL ===================== -->
+<div id="modal">
+  <div class="modal-bg" onclick="closeM()"></div>
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeM()">✕</button>
+    <div class="modal-img" id="m-img">
+      <div class="modal-img-ico">✦</div>
+      <span id="m-img-lbl">Work Image</span>
+      <span style="opacity:.4;font-size:.58rem;margin-top:4px">替换为实际作品图片</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-cat" id="m-cat"></div>
+      <h3 class="modal-title" id="m-title"></h3>
+      <div class="modal-series" id="m-series"></div>
+      <div class="modal-rule"></div>
+      <p class="modal-desc" id="m-desc"></p>
+      <div class="modal-grid">
+        <div class="modal-mi"><div class="modal-ml">Year</div><div class="modal-mv" id="m-year"></div></div>
+        <div class="modal-mi"><div class="modal-ml">Category</div><div class="modal-mv" id="m-cat2"></div></div>
+        <div class="modal-mi"><div class="modal-ml">材料 / Medium</div><div class="modal-mv" id="m-med"></div></div>
+        <div class="modal-mi"><div class="modal-ml">展示 / Showcase</div><div class="modal-mv" id="m-show"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SKILLS ===================== -->
+<section id="skills" class="sec">
+  <div style="grid-column:1/-1" class="sec-hd rv">
+    <div class="sec-label">Skills &amp; Tools</div>
+    <h2 class="sec-title">技能<em>·</em>工具</h2>
+  </div>
+
+  <div class="rv d1">
+    <p class="skill-intro">
+      精通行业标准设计软件，具备从<strong>概念草图</strong>到<strong>数字化成品</strong>的完整设计链路能力。
+      米兰理工大学的交换学习拓展了对<strong>国际时尚系统</strong>与商业生态的认知与实践。
+    </p>
+    <div style="margin-top:2.8rem">
+      <div class="sk-sub">语言能力 · Languages</div>
+      <div class="tags">
+        <span class="tag">中文 · 普通话一级乙</span>
+        <span class="tag">English · CET-6</span>
+        <span class="tag">Français · Débutant</span>
+      </div>
+    </div>
+    <div style="margin-top:2.2rem">
+      <div class="sk-sub">综合能力 · Others</div>
+      <div class="tags">
+        <span class="tag">时尚摄影</span>
+        <span class="tag">手绘效果图</span>
+        <span class="tag">项目管理</span>
+        <span class="tag">服装陈列</span>
+        <span class="tag">文案写作</span>
+        <span class="tag">舞台表演</span>
+        <span class="tag">打击乐</span>
+        <span class="tag">羽毛球·运动</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rv d2">
+    <div class="sk-sub" style="margin-bottom:2rem">设计软件 · Software</div>
+
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">Adobe Photoshop</span><span class="sk-val">92</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="92"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">Adobe Illustrator</span><span class="sk-val">88</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="88"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">服装 CAD</span><span class="sk-val">85</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="85"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">AutoCAD</span><span class="sk-val">82</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="82"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">CorelDRAW</span><span class="sk-val">78</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="78"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">Adobe Premiere Pro</span><span class="sk-val">75</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="75"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">CLO 3D</span><span class="sk-val">70</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="70"></div><div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-item">
+      <div class="sk-hd"><span class="sk-name">Adobe Audition</span><span class="sk-val">65</span></div>
+      <div class="sk-track"><div class="sk-fill" data-w="65"></div><div class="sk-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AWARDS ===================== -->
+<section class="sec" style="padding-top:0">
+  <div class="sec-hd rv">
+    <div class="sec-label">Honors &amp; Awards</div>
+    <h2 class="sec-title">荣誉<em>·</em>奖项</h2>
+  </div>
+  <div class="awards-wrap">
+    <div class="award rv"><div class="award-yr">2024</div><div class="award-t">巴黎市政厅国际时装秀展出</div><div class="award-o">法国巴黎 · 国际展演</div></div>
+    <div class="award rv d1"><div class="award-yr">2024</div><div class="award-t">NCDA 全国高校数字艺术设计大赛 二等奖</div><div class="award-o">全国赛级别</div></div>
+    <div class="award rv d2"><div class="award-yr">2024</div><div class="award-t">《纺织学报》核心期刊发表《南宋五品官员婚服复原》</div><div class="award-o">CSSCI 核心期刊</div></div>
+    <div class="award rv d1"><div class="award-yr">2024</div><div class="award-t">首届千禧杯服装设计大赛 网络人气奖</div><div class="award-o">行业赛事</div></div>
+    <div class="award rv d2"><div class="award-yr">2023</div><div class="award-t">第七届北京大学生人物造型设计大赛</div><div class="award-o">北京市级</div></div>
+    <div class="award rv d3"><div class="award-yr">2023</div><div class="award-t">"虎门杯"中国国际高校色彩设计大赛</div><div class="award-o">国际赛级别</div></div>
+    <div class="award rv"><div class="award-yr">2023</div><div class="award-t">北京服装学院 一等奖学金</div><div class="award-o">校级荣誉</div></div>
+    <div class="award rv d1"><div class="award-yr">2022</div><div class="award-t">第二十五届真皮标志杯中国国际皮革裘皮时装设计赛</div><div class="award-o">国际赛级别</div></div>
+    <div class="award rv d2"><div class="award-yr">2022</div><div class="award-t">北京冬奥会 NOC 志愿者，事迹被中国青年网专题报道</div><div class="award-o">国家级服务</div></div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="sec">
+  <div class="sec-hd rv">
+    <div class="sec-label">Get in Touch</div>
+    <h2 class="sec-title">联系<em>我</em></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="c-info rv d1">
+      <h3>期待每一次<br>关于时尚的对话</h3>
+      <p>如果您对我的设计作品感兴趣，或有合作意向，欢迎随时联系我。好的设计来自真诚的沟通与深度协作。</p>
+      <div class="c-links">
+        <a href="mailto:1037330789@qq.com" class="c-link">
+          <div class="c-ico">✉</div>
+          <div><span class="c-lbl">Email</span>1037330789@qq.com</div>
+        </a>
+        <div class="c-link">
+          <div class="c-ico">◎</div>
+          <div><span class="c-lbl">WeChat</span>x1037330789</div>
+        </div>
+        <div class="c-link">
+          <div class="c-ico">◈</div>
+          <div><span class="c-lbl">小红书 / Instagram</span>时尚创作内容</div>
+        </div>
+        <div class="c-link">
+          <div class="c-ico">📍</div>
+          <div><span class="c-lbl">Location</span>北京市 · Beijing, China</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv d2">
+      <form class="c-form" onsubmit="sendForm(event)">
+        <div class="fg"><label>您的姓名 · Name</label><input type="text" placeholder="请输入您的姓名" required></div>
+        <div class="fg"><label>电子邮箱 · Email</label><input type="email" placeholder="your@email.com" required></div>
+        <div class="fg"><label>主题 · Subject</label><input type="text" placeholder="合作咨询 / 作品询问 / 其他"></div>
+        <div class="fg"><label>留言内容 · Message</label><textarea placeholder="请留下您的想法和需求..." required></textarea></div>
+        <button type="submit" class="c-submit" id="c-btn">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="mq-wrap">
+    <div class="mq-track">
+      <span class="mq-seg">FASHION DESIGN <span>·</span> 服装设计 <span>·</span> MODE <span>·</span> 创新设计 <span>·</span> BEIJING <span>·</span> MILAN <span>·</span> PARIS <span>·</span> 传统与现代 <span>·</span> HAUTE COUTURE <span>·</span> 东方美学 <span>·</span></span>
+      <span class="mq-seg">FASHION DESIGN <span>·</span> 服装设计 <span>·</span> MODE <span>·</span> 创新设计 <span>·</span> BEIJING <span>·</span> MILAN <span>·</span> PARIS <span>·</span> 传统与现代 <span>·</span> HAUTE COUTURE <span>·</span> 东方美学 <span>·</span></span>
+    </div>
+  </div>
+  <div class="foot-btm">
+    <div class="foot-logo">LIU YUXIN · 刘雨欣</div>
+    <div class="foot-copy">© 2026 Charlotte Liu · All Rights Reserved</div>
+    <a href="#hero" class="foot-top">↑ Back to Top</a>
+  </div>
+</footer>
+
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+/* -------------------------------------------------------
+   WORKS DATA
+------------------------------------------------------- */
+const WD = [
+  {
+    title:"东方叙事 · Oriental Narrative",
+    series:"毕业设计系列 · Graduation Collection",
+    cat:"实验性 · Experimental",
+    year:"2023",
+    desc:"以中国传统文化中的『叙事性』为切入点，探索服装如何成为文化故事的载体。设计从古典文学与诗词意象中汲取灵感，运用解构与重组的手法，将传统织物工艺与现代廓形语言相融合，创造出具有时代对话感的毕业设计系列。",
+    med:"丝绸 / 织锦 / 欧根纱",
+    show:"北京工业大学毕业展 · 2023",
+    lbl:"毕业设计作品封面"
+  },
+  {
+    title:"南宋五品官婚服复原",
+    series:"服饰史研究 · Historical Reconstruction",
+    cat:"文化复原 · Heritage",
+    year:"2024",
+    desc:"基于严谨文献考据与图像资料分析，对南宋五品官员婚服进行系统性复原研究。通过对宋代染织技艺、服饰制度及礼仪文化的深入研究，还原历史服饰的材质、色彩与结构，成果发表于CSSCI核心期刊《纺织学报》。",
+    med:"研究性复原 / 文献考据",
+    show:"《纺织学报》核心期刊 · 2024",
+    lbl:"南宋婚服复原研究图"
+  },
+  {
+    title:"丝路华章 · Silk Road Elegance",
+    series:"国际展览系列 · International Exhibition",
+    cat:"礼服·高定 · Couture",
+    year:"2024",
+    desc:"2024年于法国巴黎市政厅（Hôtel de Ville de Paris）走秀展出。作品以丝绸之路历史意象为设计语言，将东西方文化交融的美学精神融入现代高定结构，在国际舞台上传递中国当代时尚设计的声音。",
+    med:"真丝 / 金线刺绣 / 欧根纱",
+    show:"法国巴黎市政厅 · 2024",
+    lbl:"巴黎市政厅展出作品"
+  },
+  {
+    title:"解构·重构 系列",
+    series:"成衣设计系列 · Ready-to-Wear",
+    cat:"成衣系列 · Collection",
+    year:"2023",
+    desc:"以解构主义哲学为方法论，对传统服装结构进行系统性拆解与重组。打破传统版型惯例，探索服装结构与人体之间新的空间关系，呈现具有前卫感而又可穿着的成衣系列。",
+    med:"棉麻混纺 / 立体裁剪",
+    show:"作品集项目 · 2023",
+    lbl:"解构成衣系列"
+  },
+  {
+    title:"诗意栖居 · Poetic Dwelling",
+    series:"CCTV《中国诗词大会》",
+    cat:"项目实践 · Cultural Project",
+    year:"2023—2025",
+    desc:"参与CCTV《中国诗词大会》多届服装复原设计，担任设计和项目管理助理。负责从概念策划、设计执行到现场协调的全流程。通过对不同历史时期诗词意象的深度解读，将文学意境转化为具有视觉叙事力的舞台服装。",
+    med:"舞台服装 / 历史复原",
+    show:"中央电视台 · CCTV",
+    lbl:"诗词大会服装设计"
+  },
+  {
+    title:"漕运往事 · Canal Heritage",
+    series:"运河文化时尚大赏",
+    cat:"项目实践 · Cultural",
+    year:"2023—2025",
+    desc:"参与多届运河文化时尚大赏，以大运河历史文化为主题，探索运河沿岸丰富历史服饰遗产与当代时尚的融合路径。融合文化研究、设计创新与展演策划等多个维度。",
+    med:"文化主题设计 / 服装策划",
+    show:"运河文化时尚大赏 · 多届",
+    lbl:"运河文化时尚设计"
+  },
+  {
+    title:"影像叙事摄影系列",
+    series:"视觉传达 · Visual Communication",
+    cat:"视觉传达 · Visual",
+    year:"2022—2024",
+    desc:"以服装为叙事媒介的时尚摄影系列。探索服装与人体、空间、光线之间的视觉关系，通过摄影语言为设计作品构建完整的视觉叙事体系，涵盖概念摄影、平面规划与视觉设计等形式。",
+    med:"时尚摄影 / 视觉设计",
+    show:"作品集 Chapter 2 · 2024",
+    lbl:"视觉传达摄影系列"
+  },
+  {
+    title:"当代游牧 · Contemporary Nomad",
+    series:"Mini 成衣项目",
+    cat:"成衣系列 · Collection",
+    year:"2024",
+    desc:"灵感源于现代都市生活中的「游牧」状态——身份的流动、空间的转换、文化的交叠。以模块化设计思维构建可重组的服装系统，探索当代青年对于「归属感」与「自由感」的时尚表达。",
+    med:"功能性面料 / 模块化设计",
+    show:"米兰理工大学项目 · 2024",
+    lbl:"当代游牧 Mini Collection"
+  }
+];
+
+/* -------------------------------------------------------
+   CURSOR
+------------------------------------------------------- */
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+
+(function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+document.querySelectorAll('a,button,.wcard,.filt,.award,.tag').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.classList.add('hov');ring.classList.add('hov');});
+  el.addEventListener('mouseleave',()=>{dot.classList.remove('hov');ring.classList.remove('hov');});
+});
+
+/* -------------------------------------------------------
+   LOADER
+------------------------------------------------------- */
+const ldTxt = document.getElementById('ld-text');
+'LIU YUXIN'.split('').forEach((c,i)=>{
+  const s=document.createElement('span');
+  s.className='ld-ch';
+  s.textContent = c===' ' ? '\u00A0' : c;
+  s.style.animationDelay=(i*.09)+'s';
+  ldTxt.appendChild(s);
+});
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('out'), 2300);
+});
+
+/* -------------------------------------------------------
+   THEME
+------------------------------------------------------- */
+const thBtn=document.getElementById('theme-btn');
+let dark=true;
+thBtn.addEventListener('click',()=>{
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  thBtn.textContent=dark?'☽':'☀';
+});
+
+/* -------------------------------------------------------
+   NAVBAR SCROLL
+------------------------------------------------------- */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>80);
+});
+
+/* -------------------------------------------------------
+   HAMBURGER MENU
+------------------------------------------------------- */
+const ham=document.getElementById('nav-ham');
+const mob=document.getElementById('mob-menu');
+let mOpen=false;
+ham.addEventListener('click',()=>{
+  mOpen=!mOpen;
+  mob.classList.toggle('open',mOpen);
+  const ss=ham.querySelectorAll('span');
+  if(mOpen){
+    ss[0].style.transform='rotate(45deg) translate(4px,4px)';
+    ss[1].style.opacity='0';
+    ss[2].style.transform='rotate(-45deg) translate(4px,-4px)';
+  } else {
+    ss.forEach(s=>{s.style.transform='';s.style.opacity='';});
+  }
+});
+document.querySelectorAll('.mob-lnk').forEach(l=>l.addEventListener('click',()=>{
+  mOpen=false; mob.classList.remove('open');
+  ham.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
+}));
+
+/* -------------------------------------------------------
+   HERO CANVAS — PARTICLES
+------------------------------------------------------- */
+const cvs=document.getElementById('c-hero');
+const ctx=cvs.getContext('2d');
+function resizeCvs(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
+resizeCvs();
+window.addEventListener('resize',resizeCvs);
+
+const PCNT=65, DIST=145;
+class P{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*cvs.width;
+    this.y=Math.random()*cvs.height;
+    this.vx=(Math.random()-.5)*.38;
+    this.vy=(Math.random()-.5)*.38;
+    this.r=Math.random()*1.4+.4;
+    this.a=Math.random()*.35+.08;
+  }
+  tick(){
+    this.x+=this.vx; this.y+=this.vy;
+    if(this.x<0||this.x>cvs.width)this.vx*=-1;
+    if(this.y<0||this.y>cvs.height)this.vy*=-1;
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(200,169,110,${this.a})`;
+    ctx.fill();
+  }
+}
+const pts=Array.from({length:PCNT},()=>new P());
+
+(function animPts(){
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  for(let i=0;i<pts.length;i++){
+    pts[i].tick(); pts[i].draw();
+    for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<DIST){
+        ctx.beginPath();
+        ctx.moveTo(pts[i].x,pts[i].y);
+        ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(200,169,110,${(1-d/DIST)*.11})`;
+        ctx.lineWidth=.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animPts);
+})();
+
+/* -------------------------------------------------------
+   PARALLAX HERO NAME
+------------------------------------------------------- */
+const hName=document.getElementById('hero-name');
+window.addEventListener('scroll',()=>{
+  if(hName) hName.style.transform=`translateY(${window.scrollY*.28}px)`;
+});
+
+/* -------------------------------------------------------
+   SCROLL REVEAL
+------------------------------------------------------- */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.09,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* -------------------------------------------------------
+   SKILL BARS
+------------------------------------------------------- */
+const skObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const f=e.target;
+      f.style.width=f.dataset.w+'%';
+      f.nextElementSibling.style.opacity='1';
+      skObs.unobserve(f);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.sk-fill').forEach(f=>skObs.observe(f));
+
+/* -------------------------------------------------------
+   WORKS FILTER
+------------------------------------------------------- */
+document.querySelectorAll('.filt').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filt').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const f=btn.dataset.f;
+    document.querySelectorAll('.wcard').forEach(c=>{
+      if(f==='all'||c.dataset.c===f){
+        c.classList.remove('hide');
+      } else {
+        c.classList.add('hide');
+      }
+    });
+  });
+});
+
+/* -------------------------------------------------------
+   MODAL
+------------------------------------------------------- */
+function openM(i){
+  const w=WD[i];
+  document.getElementById('m-cat').textContent=w.cat;
+  document.getElementById('m-title').textContent=w.title;
+  document.getElementById('m-series').textContent=w.series;
+  document.getElementById('m-desc').textContent=w.desc;
+  document.getElementById('m-year').textContent=w.year;
+  document.getElementById('m-cat2').textContent=w.cat;
+  document.getElementById('m-med').textContent=w.med;
+  document.getElementById('m-show').textContent=w.show;
+  document.getElementById('m-img-lbl').textContent=w.lbl;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+
+/* -------------------------------------------------------
+   CONTACT FORM
+------------------------------------------------------- */
+function sendForm(e){
+  e.preventDefault();
+  const btn=document.getElementById('c-btn');
+  btn.textContent='Message Sent ✓';
+  btn.style.background='var(--gold)';
+  btn.style.color='var(--bg)';
+  setTimeout(()=>{
+    btn.textContent='Send Message →';
+    btn.style.background='';
+    btn.style.color='var(--gold)';
+    e.target.reset();
+  },3200);
+}
+
+/* -------------------------------------------------------
+   SMOOTH SCROLL HELPER
+------------------------------------------------------- */
+function goTo(sel){
+  const el=document.querySelector(sel);
+  if(el)el.scrollIntoView({behavior:'smooth'});
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
