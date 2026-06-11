@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李宁 27Q3 | 迹·光场 MARK · LIGHT FIELD</title>
+<style>
+  :root {
+    --bone-white: #F5F0E8;
+    --navy: #1A2744;
+    --deep-bg: #080C14;
+    --card-bg: #0F1520;
+    --card-border: #1E2D4A;
+    --luminous-blue: #0057FF;
+    --ember-orange: #FF5C2B;
+    --gold: #D4A843;
+    --cool-gray: #B0B8C1;
+    --volt: #D4E53C;
+    --glass: rgba(255,255,255,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-bg);
+    color: var(--bone-white);
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── CANVAS BACKGROUND ── */
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+
+  .content-wrap { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 60px;
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .nav-logo {
+    font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--cool-gray);
+  }
+  .nav-logo span { color: var(--luminous-blue); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cool-gray); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--bone-white); }
+  .nav-tag {
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--ember-orange);
+    border: 1px solid var(--ember-orange);
+    padding: 4px 12px; border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--luminous-blue); margin-bottom: 28px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; width: 40px; height: 1px; background: var(--luminous-blue);
+    opacity: 0.6;
+  }
+  .hero-title {
+    font-size: clamp(56px, 10vw, 120px);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--bone-white) 0%, var(--cool-gray) 50%, var(--luminous-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .hero-subtitle {
+    font-size: clamp(14px, 2vw, 20px);
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--cool-gray); margin-bottom: 32px;
+  }
+  .hero-desc {
+    max-width: 620px;
+    font-size: 16px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.8;
+    margin-bottom: 56px;
+  }
+  .hero-stats {
+    display: flex; gap: 60px;
+    border-top: 1px solid var(--card-border);
+    padding-top: 40px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-size: 36px; font-weight: 700;
+    color: var(--bone-white); display: block;
+  }
+  .hero-stat-num span { color: var(--luminous-blue); }
+  .hero-stat-label {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cool-gray); margin-top: 4px;
+  }
+  .hero-badge {
+    position: absolute; top: 140px; right: 80px;
+    width: 120px; height: 120px;
+    border: 1px solid rgba(0,87,255,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    animation: rotate-slow 20s linear infinite;
+  }
+  .hero-badge-inner {
+    font-size: 9px; letter-spacing: 0.2em; text-align: center;
+    text-transform: uppercase; color: var(--luminous-blue);
+    line-height: 1.8;
+  }
+  @keyframes rotate-slow { to { transform: rotate(360deg); } }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 60px; }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--luminous-blue); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 60px; height: 1px;
+    background: var(--luminous-blue); opacity: 0.4;
+  }
+  .section-title {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-title em { font-style: normal; color: var(--luminous-blue); }
+  .section-desc {
+    font-size: 15px; color: rgba(245,240,232,0.55);
+    max-width: 560px; line-height: 1.8; margin-bottom: 60px;
+  }
+
+  /* ── THEME CARD ── */
+  .theme-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #0A1530 60%, #040810 100%);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .theme-hero::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,87,255,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .theme-hero::after {
+    content: '';
+    position: absolute; bottom: -60px; left: 40%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,92,43,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .theme-cn {
+    font-size: 72px; font-weight: 800;
+    color: var(--bone-white); opacity: 0.12;
+    position: absolute; right: 60px; bottom: 30px;
+    letter-spacing: -0.05em; user-select: none;
+  }
+  .theme-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,87,255,0.15);
+    border: 1px solid rgba(0,87,255,0.3);
+    color: var(--luminous-blue);
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 20px; margin-bottom: 24px;
+  }
+  .theme-name {
+    font-size: 48px; font-weight: 800; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .theme-name-en {
+    font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--luminous-blue); margin-bottom: 24px;
+  }
+  .theme-narrative {
+    font-size: 16px; line-height: 1.9;
+    color: rgba(245,240,232,0.7); max-width: 640px;
+    position: relative; z-index: 1;
+  }
+
+  /* ── GRID CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    border-color: rgba(0,87,255,0.4);
+    transform: translateY(-4px);
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .card.blue::before { background: linear-gradient(90deg, var(--luminous-blue), transparent); }
+  .card.orange::before { background: linear-gradient(90deg, var(--ember-orange), transparent); }
+  .card.gold::before { background: linear-gradient(90deg, var(--gold), transparent); }
+  .card.volt::before { background: linear-gradient(90deg, var(--volt), transparent); }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 20px;
+  }
+  .card-icon.blue { background: rgba(0,87,255,0.15); }
+  .card-icon.orange { background: rgba(255,92,43,0.15); }
+  .card-icon.gold { background: rgba(212,168,67,0.15); }
+  .card-num {
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--cool-gray); margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 18px; font-weight: 700;
+    margin-bottom: 12px; line-height: 1.3;
+  }
+  .card-text {
+    font-size: 13px; color: rgba(245,240,232,0.55);
+    line-height: 1.7;
+  }
+
+  /* ── COLOR SYSTEM ── */
+  .color-system { padding: 100px 60px; }
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px; margin-bottom: 48px;
+  }
+  .color-swatch {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.3s;
+  }
+  .color-swatch:hover { transform: scale(1.03); }
+  .color-block { height: 100px; }
+  .color-info {
+    background: var(--card-bg);
+    padding: 14px 16px;
+  }
+  .color-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .color-role { font-size: 10px; color: var(--cool-gray); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+  .color-hex { font-size: 11px; color: var(--cool-gray); font-family: monospace; }
+
+  /* ── PALETTE COMBOS ── */
+  .palette-combos {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .palette-combo {
+    border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--card-border);
+  }
+  .palette-preview {
+    height: 80px; display: flex;
+  }
+  .palette-preview div { flex: 1; }
+  .palette-meta { padding: 20px; background: var(--card-bg); }
+  .palette-code { font-size: 11px; letter-spacing: 0.2em; color: var(--cool-gray); margin-bottom: 6px; }
+  .palette-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .palette-desc { font-size: 12px; color: rgba(245,240,232,0.5); }
+
+  /* ── PATTERN SECTION ── */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .pattern-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .pattern-visual {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pattern-label-wrap { padding: 24px; }
+  .pattern-tag {
+    display: inline-block;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--luminous-blue);
+    border: 1px solid rgba(0,87,255,0.3);
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .pattern-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .pattern-desc { font-size: 12px; color: rgba(245,240,232,0.5); line-height: 1.6; }
+
+  /* SVG Patterns */
+  .pat-light-trail { background: radial-gradient(ellipse at 20% 50%, rgba(0,87,255,0.12) 0%, transparent 60%), var(--navy); }
+  .pat-calligraphy { background: linear-gradient(135deg, #0A1020 0%, #0F1A30 100%); }
+  .pat-court-lines { background: linear-gradient(180deg, #060C18 0%, #0A1525 100%); }
+  .pat-speed { background: radial-gradient(ellipse at 80% 20%, rgba(255,92,43,0.1) 0%, transparent 60%), #060A12; }
+  .pat-text-art { background: linear-gradient(135deg, #0A1530 0%, #040810 100%); }
+  .pat-diamond { background: radial-gradient(ellipse at 50% 50%, rgba(212,168,67,0.1) 0%, transparent 60%), #06090F; }
+
+  /* ── DETAILS ── */
+  .details-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
+  }
+  .detail-group {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 32px;
+  }
+  .detail-group-title {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--cool-gray);
+    margin-bottom: 20px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .detail-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--luminous-blue);
+  }
+  .detail-list { list-style: none; }
+  .detail-list li {
+    padding: 10px 0;
+    font-size: 14px;
+    color: rgba(245,240,232,0.75);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: flex-start; gap: 12px;
+    line-height: 1.5;
+  }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li::before {
+    content: '→';
+    color: var(--luminous-blue); font-size: 12px;
+    margin-top: 2px; flex-shrink: 0;
+  }
+
+  /* ── SKU TABLE ── */
+  .sku-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .sku-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 28px;
+    position: relative;
+  }
+  .sku-card.core { border-color: rgba(0,87,255,0.3); }
+  .sku-badge {
+    position: absolute; top: 20px; right: 20px;
+    font-size: 9px; letter-spacing: 0.2em;
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .sku-badge.core { background: rgba(0,87,255,0.15); color: var(--luminous-blue); }
+  .sku-badge.ext { background: rgba(212,168,67,0.15); color: var(--gold); }
+  .sku-badge.acc { background: rgba(255,92,43,0.15); color: var(--ember-orange); }
+  .sku-code { font-size: 11px; color: var(--cool-gray); letter-spacing: 0.2em; margin-bottom: 10px; font-family: monospace; }
+  .sku-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .sku-desc { font-size: 12px; color: rgba(245,240,232,0.5); line-height: 1.6; }
+
+  /* ── WORKFLOW STEPS ── */
+  .workflow-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    position: relative; margin-bottom: 60px;
+  }
+  .workflow-step {
+    text-align: center; padding: 0 20px;
+    position: relative;
+  }
+  .workflow-step::after {
+    content: '→';
+    position: absolute; top: 30px; right: -10px;
+    color: var(--luminous-blue); font-size: 18px;
+    z-index: 1;
+  }
+  .workflow-step:last-child::after { display: none; }
+  .step-circle {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 22px;
+    transition: border-color 0.3s;
+  }
+  .workflow-step:hover .step-circle { border-color: var(--luminous-blue); }
+  .step-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .step-tools { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .tool-tag {
+    font-size: 10px; padding: 3px 8px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px; color: var(--cool-gray);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── AI PROMPTS ── */
+  .prompt-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px; overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .prompt-header {
+    padding: 16px 24px;
+    background: rgba(0,87,255,0.08);
+    border-bottom: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .prompt-title-text { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .prompt-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .prompt-dot.blue { background: var(--luminous-blue); }
+  .prompt-dot.orange { background: var(--ember-orange); }
+  .prompt-tools-row { display: flex; gap: 8px; }
+  .prompt-tool-badge {
+    font-size: 10px; padding: 3px 10px;
+    background: rgba(0,87,255,0.15);
+    border: 1px solid rgba(0,87,255,0.25);
+    color: var(--luminous-blue); border-radius: 4px;
+  }
+  .prompt-body {
+    padding: 24px;
+    font-size: 13px; line-height: 1.8;
+    color: rgba(245,240,232,0.75);
+    font-family: 'PingFang SC', monospace;
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(0,87,255,0.15);
+    border: 1px solid rgba(0,87,255,0.3);
+    color: var(--luminous-blue);
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 11px; cursor: pointer;
+    transition: background 0.3s;
+    letter-spacing: 0.1em;
+  }
+  .copy-btn:hover { background: rgba(0,87,255,0.3); }
+
+  /* ── ECOMM SECTION ── */
+  .ecomm-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+    margin-bottom: 40px;
+  }
+  .ecomm-screen {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .ecomm-num-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--luminous-blue), var(--ember-orange));
+  }
+  .ecomm-content { padding: 16px 14px; }
+  .ecomm-screen-num { font-size: 10px; color: var(--luminous-blue); letter-spacing: 0.2em; margin-bottom: 8px; }
+  .ecomm-screen-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .ecomm-screen-desc { font-size: 11px; color: rgba(245,240,232,0.45); line-height: 1.5; }
+
+  /* ── VIDEO STORYBOARD ── */
+  .storyboard-row {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+  }
+  .story-frame {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--card-border);
+    transition: border-color 0.3s;
+  }
+  .story-frame:hover { border-color: rgba(0,87,255,0.5); }
+  .story-visual {
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; position: relative;
+    overflow: hidden;
+  }
+  .story-info { padding: 12px; background: var(--card-bg); }
+  .story-time { font-size: 10px; color: var(--ember-orange); font-family: monospace; margin-bottom: 4px; }
+  .story-name { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .story-desc { font-size: 10px; color: rgba(245,240,232,0.45); line-height: 1.5; }
+
+  /* ── PROMPT INDEX TABLE ── */
+  .prompt-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+  }
+  .prompt-table th {
+    text-align: left; padding: 14px 20px;
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--cool-gray);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .prompt-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: rgba(245,240,232,0.75);
+  }
+  .prompt-table tr:hover td { background: rgba(0,87,255,0.04); }
+  .prompt-table td:first-child { color: var(--bone-white); font-weight: 600; }
+  .pt-badge {
+    display: inline-block; font-size: 10px;
+    padding: 3px 10px; border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+  .pt-badge.blue { background: rgba(0,87,255,0.15); color: var(--luminous-blue); }
+  .pt-badge.orange { background: rgba(255,92,43,0.15); color: var(--ember-orange); }
+  .pt-badge.gold { background: rgba(212,168,67,0.15); color: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 60px;
+    border-top: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-brand { font-size: 13px; color: var(--cool-gray); }
+  .footer-brand strong { color: var(--bone-white); }
+  .footer-meta { font-size: 11px; color: rgba(176,184,193,0.5); text-align: right; line-height: 1.8; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+    margin: 0 60px;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 2px; z-index: 200;
+    background: linear-gradient(90deg, var(--luminous-blue), var(--ember-orange));
+    transform-origin: left;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* ── MOODBOARD ── */
+  .moodboard-frame {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+  }
+  .moodboard-img {
+    width: 100%; height: auto; display: block;
+    border-radius: 20px;
+    transition: transform 0.6s ease;
+  }
+  .moodboard-frame:hover .moodboard-img { transform: scale(1.01); }
+  .moodboard-placeholder {
+    display: none;
+    min-height: 320px;
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+    text-align: center;
+    border: 2px dashed var(--card-border);
+    border-radius: 20px;
+    padding: 60px;
+  }
+  .moodboard-frame.no-image .moodboard-img { display: none; }
+  .moodboard-frame.no-image .moodboard-placeholder { display: flex; }
+  .moodboard-ph-icon { font-size: 48px; opacity: 0.4; }
+  .moodboard-ph-text {
+    font-size: 14px; color: var(--cool-gray);
+    line-height: 1.8;
+  }
+  .moodboard-ph-text code {
+    background: rgba(0,87,255,0.15);
+    color: var(--luminous-blue);
+    padding: 2px 8px; border-radius: 4px;
+    font-family: monospace; font-size: 13px;
+  }
+  .moodboard-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 28px 36px;
+    background: linear-gradient(to top, rgba(8,12,20,0.92) 0%, transparent 100%);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    pointer-events: none;
+  }
+  .moodboard-frame.no-image .moodboard-caption { display: none; }
+  .moodboard-theme {
+    font-size: 20px; font-weight: 800;
+    color: var(--bone-white); letter-spacing: 0.05em;
+  }
+  .moodboard-tag {
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ember-orange);
+    background: rgba(255,92,43,0.12);
+    border: 1px solid rgba(255,92,43,0.3);
+    padding: 5px 14px; border-radius: 20px;
+  }
+  .moodboard-meta-row {
+    display: flex; gap: 16px; margin-top: 20px;
+  }
+  .moodboard-meta-item {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 18px 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .moodboard-meta-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .moodboard-meta-label { font-size: 11px; color: var(--cool-gray); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .moodboard-meta-val { font-size: 13px; font-weight: 600; }
+
+  /* ── FLAT SKETCH ── */
+  .flatsketch-frame {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #F8F6F2;
+  }
+  .flatsketch-img {
+    width: 100%; display: block;
+    max-height: 520px; object-fit: contain; object-position: center;
+    border-radius: 20px;
+    transition: transform 0.6s ease;
+  }
+  .flatsketch-frame:hover .flatsketch-img { transform: scale(1.01); }
+  .flatsketch-frame.no-image .flatsketch-img { display: none; }
+  .flatsketch-frame.no-image .moodboard-placeholder { display: flex; }
+  .flatsketch-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px 32px;
+    background: linear-gradient(to top, rgba(8,12,20,0.88) 0%, transparent 100%);
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none;
+  }
+  .flatsketch-frame.no-image .flatsketch-caption { display: none; }
+  .flatsketch-caption-left { display: flex; align-items: center; gap: 12px; }
+  .flatsketch-label {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--bone-white);
+  }
+  .flatsketch-sep { color: var(--ember-orange); font-size: 16px; }
+
+  /* ── LINE SKETCH ── */
+  .linesketch-frame {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #FFFFFF;
+  }
+  .linesketch-img {
+    width: 100%; display: block;
+    max-height: 520px; object-fit: contain; object-position: center;
+    border-radius: 20px;
+    transition: transform 0.6s ease;
+  }
+  .linesketch-frame:hover .linesketch-img { transform: scale(1.01); }
+  .linesketch-frame.no-image .linesketch-img { display: none; }
+  .linesketch-frame.no-image .moodboard-placeholder { display: flex; }
+  .linesketch-tags {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 28px;
+    background: linear-gradient(to top, rgba(8,12,20,0.85) 0%, transparent 100%);
+    display: flex; flex-wrap: wrap; gap: 8px;
+    pointer-events: none;
+  }
+  .linesketch-frame.no-image .linesketch-tags { display: none; }
+  .linesketch-tag-item {
+    font-size: 11px; letter-spacing: 0.1em;
+    color: var(--bone-white);
+    background: rgba(0,87,255,0.25);
+    border: 1px solid rgba(0,87,255,0.4);
+    padding: 4px 12px; border-radius: 20px;
+  }
+
+  /* ── COLOR SCHEMES ── */
+  .colorschemes-frame {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #FAFAF8;
+    margin-bottom: 24px;
+  }
+  .colorschemes-img {
+    width: 100%; display: block;
+    max-height: 520px; object-fit: contain; object-position: center;
+    border-radius: 20px;
+    transition: transform 0.6s ease;
+  }
+  .colorschemes-frame:hover .colorschemes-img { transform: scale(1.01); }
+  .colorschemes-frame.no-image .colorschemes-img { display: none; }
+  .colorschemes-frame.no-image .moodboard-placeholder { display: flex; }
+  .colorschemes-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .colorschemes-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 20px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .colorschemes-item:hover {
+    border-color: rgba(0,87,255,0.35);
+    transform: translateY(-3px);
+  }
+  .colorschemes-swatches {
+    display: flex; height: 32px;
+    border-radius: 8px; overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .colorschemes-swatches div { flex: 1; }
+  .colorschemes-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .colorschemes-desc { font-size: 11px; color: var(--cool-gray); line-height: 1.6; }
+
+  /* ── TENNIS PATTERN ── */
+  .tennispattern-wrap {
+    display: grid; grid-template-columns: 1fr 320px; gap: 24px;
+    align-items: start;
+  }
+  .tennispattern-frame {
+    position: relative;
+    border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #06090F;
+  }
+  .tennispattern-img {
+    width: 100%; display: block; border-radius: 20px;
+    max-height: 480px; object-fit: contain; object-position: center;
+    transition: transform 0.6s ease;
+  }
+  .tennispattern-frame:hover .tennispattern-img { transform: scale(1.02); }
+  .tennispattern-frame.no-image .tennispattern-img { display: none; }
+  .tennispattern-frame.no-image .moodboard-placeholder { display: flex; }
+  .tennispattern-info { display: flex; flex-direction: column; gap: 16px; }
+  .tennispattern-block {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 20px 22px;
+  }
+  .tennispattern-block-title {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cool-gray); margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--card-border);
+  }
+  .tennispattern-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .tennispattern-list li {
+    font-size: 13px; color: rgba(245,240,232,0.75);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .tp-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .tp-dot.blue   { background: var(--luminous-blue); }
+  .tp-dot.orange { background: var(--ember-orange); }
+  .tp-dot.white  { background: var(--bone-white); opacity: 0.7; }
+  .tp-dot.gold   { background: var(--gold); }
+  @media (max-width: 900px) {
+    .tennispattern-wrap { grid-template-columns: 1fr; }
+    .colorschemes-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── GLOW ACCENT ── */
+  .glow-blue { text-shadow: 0 0 30px rgba(0,87,255,0.5); color: var(--luminous-blue); }
+  .glow-orange { color: var(--ember-orange); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .color-grid { grid-template-columns: repeat(3, 1fr); }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sku-grid { grid-template-columns: 1fr; }
+    .workflow-row { grid-template-columns: 1fr 1fr; }
+    .palette-combos { grid-template-columns: 1fr; }
+    .ecomm-row { grid-template-columns: repeat(3, 1fr); }
+    .storyboard-row { grid-template-columns: repeat(3, 1fr); }
+    .details-grid { grid-template-columns: 1fr; }
+    .pattern-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    footer .footer-meta { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="scroll-progress" id="scrollBar"></div>
+
+<div class="content-wrap">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">LI-NING <span>×</span> DESIGN STUDIO</div>
+  <div class="nav-links">
+    <a href="#ko">设计KO</a>
+    <a href="#moodboard">Moodboard</a>
+    <a href="#color">色彩</a>
+    <a href="#pattern">图案</a>
+    <a href="#flatsketch">款式图</a>
+    <a href="#linesketch">线稿</a>
+    <a href="#colorschemes">配色</a>
+    <a href="#tennispattern">图案</a>
+    <a href="#sku">品类</a>
+    <a href="#prompts">提示词</a>
+    <a href="#ecomm">详情页</a>
+    <a href="#video">视频</a>
+  </div>
+  <div class="nav-tag">27 Q3</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <div class="hero-badge-inner">WOMEN<br>TENNIS<br>2027 Q3</div>
+  </div>
+  <div class="hero-eyebrow fade-up">李宁网球系列设计简报</div>
+  <h1 class="hero-title fade-up delay-1">迹·光场</h1>
+  <p class="hero-subtitle fade-up delay-2">MARK · LIGHT FIELD</p>
+  <p class="hero-desc fade-up delay-3">
+    网球击球瞬间，球的轨迹在球场上留下光的印记——如同中国书法运笔的一瞬，速度、力道与美感并存。用光迹为语言，以东方几何为骨架，构建 2027 年夏末球场上最具张力的女性运动美学。
+  </p>
+  <div class="hero-stats fade-up delay-4">
+    <div class="hero-stat">
+      <span class="hero-stat-num">27<span>Q3</span></span>
+      <div class="hero-stat-label">设计季度</div>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">9</span>
+      <div class="hero-stat-label">核心 SKU</div>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">3</span>
+      <div class="hero-stat-label">配色方案</div>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">6</span>
+      <div class="hero-stat-label">图案体系</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KO SECTION -->
+<section id="ko">
+  <div class="section-label">01 · 设计KO</div>
+  <h2 class="section-title">核心主题与<em>提案框架</em></h2>
+  <p class="section-desc">以「迹·光场」为核心叙事，构建从趋势洞察到品类开发的完整KO提案内容体系</p>
+
+  <div class="theme-hero">
+    <div class="theme-tag">✦ 推荐主题</div>
+    <h2 class="theme-name">迹·光场</h2>
+    <p class="theme-name-en">MARK · LIGHT FIELD</p>
+    <p class="theme-narrative">
+      网球击球瞬间，球的轨迹在球场上留下光的印记——如同中国书法运笔的一瞬，速度、力道与美感并存。这条"迹"，是运动员的意志，是东方精神的具象，是李宁品牌"赤子之心"在竞技场上的表达。
+    </p>
+    <div class="theme-cn">迹</div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card blue">
+      <div class="card-icon blue">🎯</div>
+      <div class="card-num">01 · 趋势背景</div>
+      <div class="card-title">Tenniscore 复兴浪潮</div>
+      <div class="card-text">以 2026 Wimbledon / US Open 为锚点，呈现赛场即T台的品牌机遇。网球时尚正经历 70-80s 美学复兴与高性能科技的碰撞融合。</div>
+    </div>
+    <div class="card orange">
+      <div class="card-icon orange">💡</div>
+      <div class="card-num">02 · 品牌机会</div>
+      <div class="card-title">东方竞技美学差异化</div>
+      <div class="card-text">对标 Nike / adidas / Fila，挖掘李宁"国潮东方"与高性能时尚的差异化空白。Guochao 设计语言与专业网球的结合点。</div>
+    </div>
+    <div class="card gold">
+      <div class="card-icon gold">🏅</div>
+      <div class="card-num">03 · 核心人群</div>
+      <div class="card-title">运动时尚新女性</div>
+      <div class="card-text">18-35岁城市女性，追求专业运动表现与时尚美学并重，认同东方文化认同感，具备一定消费能力的网球爱好者。</div>
+    </div>
+    <div class="card blue">
+      <div class="card-icon blue">📐</div>
+      <div class="card-num">04 · 图案方向</div>
+      <div class="card-title">三层图案逻辑</div>
+      <div class="card-text">主图案（光迹弧线/书法几何）+ 辅助纹样（速度线/散点轨迹）+ 底纹（字母排列/菱格变体），构建完整图案语言体系。</div>
+    </div>
+    <div class="card orange">
+      <div class="card-icon orange">👗</div>
+      <div class="card-num">05 · 品类架构</div>
+      <div class="card-title">9 SKU 完整系列</div>
+      <div class="card-text">核心款 3 + 延展款 4 + 配件 2。以 Polo 连衣裙为门面款，套装系列提升客单价，外套增强季节延伸性。</div>
+    </div>
+    <div class="card gold">
+      <div class="card-icon gold">🎨</div>
+      <div class="card-num">06 · 色彩系统</div>
+      <div class="card-title">三套主力配色</div>
+      <div class="card-text">白场之光（骨白+藏青+蓝）/ 暗夜追迹（藏青+橘+金）/ 冷光蓝域（蓝+白+荧光），覆盖赛场全场景需求。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MOODBOARD SECTION -->
+<section id="moodboard">
+  <div class="section-label">02 · 设计提案 — Moodboard</div>
+  <h2 class="section-title">主题灵感<em>视觉板</em></h2>
+  <p class="section-desc">「光线·竞域」Moodboard——东方建筑肌理、球场几何线条、面料质感与光迹速度感的视觉融合，构建本季设计语言的情绪底色</p>
+
+  <div class="moodboard-frame">
+    <img src="moodboard-01.jpg" alt="Moodboard 光线·竞域 LIGHT TRAIL · COURT" class="moodboard-img"
+         onerror="this.parentElement.classList.add('no-image')">
+    <div class="moodboard-placeholder">
+      <div class="moodboard-ph-icon">🖼</div>
+      <div class="moodboard-ph-text">
+        请将 Moodboard 图片保存为 <code>moodboard-01.jpg</code><br>
+        放入与此 HTML 相同的文件夹后刷新页面即可显示
+      </div>
+    </div>
+    <div class="moodboard-caption">
+      <span class="moodboard-theme">光线·竞域  LIGHT TRAIL · COURT</span>
+      <span class="moodboard-tag">Moodboard 01 · 主题灵感版</span>
+    </div>
+  </div>
+
+  <div class="moodboard-meta-row">
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--navy)"></div>
+      <div>
+        <div class="moodboard-meta-label">建筑灵感</div>
+        <div class="moodboard-meta-val">故宫 · 东方屋檐肌理</div>
+      </div>
+    </div>
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--luminous-blue)"></div>
+      <div>
+        <div class="moodboard-meta-label">图案灵感</div>
+        <div class="moodboard-meta-val">光迹几何 · 球场线条解构</div>
+      </div>
+    </div>
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--ember-orange)"></div>
+      <div>
+        <div class="moodboard-meta-label">氛围灵感</div>
+        <div class="moodboard-meta-val">都市霓虹 · 速度光感</div>
+      </div>
+    </div>
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--bone-white)"></div>
+      <div>
+        <div class="moodboard-meta-label">面料灵感</div>
+        <div class="moodboard-meta-val">骨白藏青 · 梭织质感</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COLOR SECTION -->
+<section id="color" class="color-system">
+  <div class="section-label">03 · 色彩系统</div>
+  <h2 class="section-title">色彩<em>语言体系</em></h2>
+  <p class="section-desc">以东方骨白与竞技藏青为基调，光晕蓝为年度英雄色，燃橘与金芒为东方点缀</p>
+
+  <div class="color-grid">
+    <div class="color-swatch">
+      <div class="color-block" style="background:#F5F0E8;"></div>
+      <div class="color-info">
+        <div class="color-name">骨白</div>
+        <div class="color-role">Base · 主体色</div>
+        <div class="color-hex">#F5F0E8</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-block" style="background:#1A2744;"></div>
+      <div class="color-info">
+        <div class="color-name">暗藏青</div>
+        <div class="color-role">Structure · 结构色</div>
+        <div class="color-hex">#1A2744</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-block" style="background:#0057FF;"></div>
+      <div class="color-info">
+        <div class="color-name">光晕蓝</div>
+        <div class="color-role">Hero · 英雄色</div>
+        <div class="color-hex">#0057FF</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-block" style="background:#FF5C2B;"></div>
+      <div class="color-info">
+        <div class="color-name">燃橘</div>
+        <div class="color-role">Accent · 撞色</div>
+        <div class="color-hex">#FF5C2B</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-block" style="background:#D4A843;"></div>
+      <div class="color-info">
+        <div class="color-name">金芒</div>
+        <div class="color-role">Premium · 点缀色</div>
+        <div class="color-hex">#D4A843</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-block" style="background:#D4E53C;"></div>
+      <div class="color-info">
+        <div class="color-name">荧光柠</div>
+        <div class="color-role">Energy · 能量色</div>
+        <div class="color-hex">#D4E53C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="palette-combos">
+    <div class="palette-combo">
+      <div class="palette-preview">
+        <div style="background:#F5F0E8;"></div>
+        <div style="background:#1A2744;"></div>
+        <div style="background:#0057FF;"></div>
+        <div style="background:#FF5C2B; flex:0.5;"></div>
+      </div>
+      <div class="palette-meta">
+        <div class="palette-code">SCHEME A</div>
+        <div class="palette-title">白场之光</div>
+        <div class="palette-desc">骨白主体 + 暗藏青拼色 + 光晕蓝细节 + 燃橘点缀<br>适用：Polo连衣裙、速干T套装</div>
+      </div>
+    </div>
+    <div class="palette-combo">
+      <div class="palette-preview">
+        <div style="background:#1A2744;"></div>
+        <div style="background:#F5F0E8;"></div>
+        <div style="background:#FF5C2B;"></div>
+        <div style="background:#D4A843; flex:0.5;"></div>
+      </div>
+      <div class="palette-meta">
+        <div class="palette-code">SCHEME B</div>
+        <div class="palette-title">暗夜追迹</div>
+        <div class="palette-desc">暗藏青主体 + 骨白拼色 + 燃橘撞色 + 金芒点缀<br>适用：轻量外套、运动裙裤</div>
+      </div>
+    </div>
+    <div class="palette-combo">
+      <div class="palette-preview">
+        <div style="background:#0057FF;"></div>
+        <div style="background:#F5F0E8;"></div>
+        <div style="background:#D4E53C;"></div>
+        <div style="background:#1A2744; flex:0.5;"></div>
+      </div>
+      <div class="palette-meta">
+        <div class="palette-code">SCHEME C</div>
+        <div class="palette-title">冷光蓝域</div>
+        <div class="palette-desc">光晕蓝主体 + 骨白拼色 + 荧光柠檬点缀<br>适用：速干T、运动短裤、配件</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PATTERN SECTION -->
+<section id="pattern">
+  <div class="section-label">04 · 图案体系</div>
+  <h2 class="section-title">图案<em>元素矩阵</em></h2>
+  <p class="section-desc">主图案 · 辅助纹样 · 文字图形三层逻辑，构建可灵活组合的完整图案语言</p>
+
+  <div class="pattern-grid">
+    <div class="pattern-card">
+      <div class="pattern-visual pat-light-trail">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <defs>
+            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#0057FF;stop-opacity:0"/>
+              <stop offset="50%" style="stop-color:#0057FF;stop-opacity:0.9"/>
+              <stop offset="100%" style="stop-color:#FF5C2B;stop-opacity:0.6"/>
+            </linearGradient>
+          </defs>
+          <path d="M10,100 Q50,20 140,40" stroke="url(#lg1)" stroke-width="2" fill="none"/>
+          <path d="M20,110 Q70,30 150,50" stroke="url(#lg1)" stroke-width="1.5" fill="none" opacity="0.6"/>
+          <path d="M5,80 Q40,10 130,30" stroke="url(#lg1)" stroke-width="1" fill="none" opacity="0.3"/>
+          <circle cx="140" cy="40" r="5" fill="#FF5C2B" opacity="0.8"/>
+          <circle cx="130" cy="30" r="3" fill="#0057FF" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="pattern-label-wrap">
+        <div class="pattern-tag">主图案 · HERO</div>
+        <div class="pattern-name">光迹弧线</div>
+        <div class="pattern-desc">模拟球速运动轨迹的弯弧几何线条，兼具动感与优雅，适用于服装背部主印花</div>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-visual pat-calligraphy">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <text x="30" y="90" font-size="80" font-weight="900" fill="none" stroke="#F5F0E8" stroke-width="1.5" opacity="0.25" font-family="serif">迹</text>
+          <path d="M32,25 L55,22 Q60,22 58,30 L50,70 Q48,78 42,82 L30,88" stroke="#0057FF" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M65,18 L75,18 L72,85" stroke="#0057FF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M90,30 Q110,25 115,40 Q120,55 100,65 Q85,72 80,85" stroke="#D4A843" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="pattern-label-wrap">
+        <div class="pattern-tag">主图案 · HERO</div>
+        <div class="pattern-name">书法简笔几何</div>
+        <div class="pattern-desc">提取"迹"字笔画骨架几何化处理，非具象汉字，保留文化感同时具备现代运动美感</div>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-visual pat-court-lines">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <line x1="10" y1="60" x2="150" y2="60" stroke="#F5F0E8" stroke-width="1" opacity="0.4"/>
+          <line x1="80" y1="10" x2="80" y2="110" stroke="#F5F0E8" stroke-width="1" opacity="0.4"/>
+          <line x1="10" y1="10" x2="150" y2="110" stroke="#0057FF" stroke-width="1.5" opacity="0.5"/>
+          <line x1="150" y1="10" x2="10" y2="110" stroke="#0057FF" stroke-width="1.5" opacity="0.3"/>
+          <rect x="25" y="20" width="110" height="80" stroke="#F5F0E8" stroke-width="1" fill="none" opacity="0.3"/>
+          <rect x="45" y="35" width="70" height="50" stroke="#FF5C2B" stroke-width="1" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="pattern-label-wrap">
+        <div class="pattern-tag">主图案 · HERO</div>
+        <div class="pattern-name">球场线条解构</div>
+        <div class="pattern-desc">球场白线角度重组，形成立体网格感图案，底纹应用，增加运动属性认同感</div>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-visual pat-speed">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <defs>
+            <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#FF5C2B;stop-opacity:0"/>
+              <stop offset="100%" style="stop-color:#FF5C2B;stop-opacity:0.9"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="25" x2="160" y2="25" stroke="url(#lg2)" stroke-width="1.5"/>
+          <line x1="0" y1="40" x2="160" y2="40" stroke="url(#lg2)" stroke-width="1"/>
+          <line x1="0" y1="53" x2="160" y2="53" stroke="url(#lg2)" stroke-width="2"/>
+          <line x1="0" y1="65" x2="160" y2="65" stroke="url(#lg2)" stroke-width="1"/>
+          <line x1="0" y1="76" x2="160" y2="76" stroke="url(#lg2)" stroke-width="1.5"/>
+          <line x1="0" y1="86" x2="160" y2="86" stroke="url(#lg2)" stroke-width="0.8"/>
+          <line x1="0" y1="95" x2="160" y2="95" stroke="url(#lg2)" stroke-width="1"/>
+          <polygon points="145,53 160,47 160,59" fill="#FF5C2B" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="pattern-label-wrap">
+        <div class="pattern-tag">辅助纹样</div>
+        <div class="pattern-name">速度线组</div>
+        <div class="pattern-desc">平行渐变线条，方向性强，传递速度感与运动力量，适合袖口、侧缝装饰条</div>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-visual pat-text-art">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <text x="80" y="72" font-size="42" font-weight="900" fill="none" stroke="#0057FF" stroke-width="1" text-anchor="middle" opacity="0.8" font-family="'Helvetica Neue',sans-serif" letter-spacing="2">TENNIS</text>
+          <text x="80" y="95" font-size="12" font-weight="400" fill="#D4A843" text-anchor="middle" opacity="0.7" font-family="'Helvetica Neue',sans-serif" letter-spacing="8">MARK</text>
+          <line x1="20" y1="40" x2="140" y2="40" stroke="#0057FF" stroke-width="0.5" opacity="0.4"/>
+          <line x1="20" y1="100" x2="140" y2="100" stroke="#0057FF" stroke-width="0.5" opacity="0.4"/>
+          <text x="80" y="28" font-size="9" fill="#F5F0E8" text-anchor="middle" opacity="0.4" font-family="monospace" letter-spacing="4">LI-NING 2027</text>
+        </svg>
+      </div>
+      <div class="pattern-label-wrap">
+        <div class="pattern-tag">文字图形</div>
+        <div class="pattern-name">TENNIS 文字图案</div>
+        <div class="pattern-desc">MARK / LIGHT / TENNIS 关键词排版图形，结合速度线元素，适用于T恤正背面主印花</div>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-visual pat-diamond">
+        <svg width="160" height="120" viewBox="0 0 160 120">
+          <defs>
+            <pattern id="diamond" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+              <polygon points="15,2 28,15 15,28 2,15" fill="none" stroke="#D4A843" stroke-width="0.8" opacity="0.4"/>
+              <circle cx="15" cy="15" r="2" fill="#D4A843" opacity="0.3"/>
+            </pattern>
+          </defs>
+          <rect width="160" height="120" fill="url(#diamond)"/>
+          <polygon points="80,20 130,60 80,100 30,60" fill="none" stroke="#D4A843" stroke-width="2" opacity="0.6"/>
+          <circle cx="80" cy="60" r="8" fill="none" stroke="#D4A843" stroke-width="1.5" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="pattern-label-wrap">
+        <div class="pattern-tag">底纹</div>
+        <div class="pattern-name">棱形光斑底纹</div>
+        <div class="pattern-desc">模拟球网打光效果的菱格纹变体，细腻底纹应用，增加面料视觉层次感</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DESIGN DETAILS -->
+<section>
+  <div class="section-label">05 · 设计细节</div>
+  <h2 class="section-title">工艺<em>细节清单</em></h2>
+  <p class="section-desc">从廓形结构到功能性细节，每一处细节都承载着东方运动美学的精工表达</p>
+
+  <div class="details-grid">
+    <div class="detail-group">
+      <div class="detail-group-title"><div class="detail-dot"></div>廓形与结构细节</div>
+      <ul class="detail-list">
+        <li>不对称色块拼接（单肩 / 单侧腰线 / 领口斜切）</li>
+        <li>翻折领口功能拼色（对比色内里翻出，功能+视觉兼备）</li>
+        <li>半开拉链前胸设计（Polo衫/外套，功能性与时尚感）</li>
+        <li>网球波浪下摆（A字裙摆微波浪，运动中有动感）</li>
+        <li>侧缝隐藏拉链（利落线条，无堆叠感）</li>
+        <li>背中心光迹图案定位印花（背视图核心美学点）</li>
+        <li>滚边撞色工艺（领口/袖口/下摆精工细节）</li>
+      </ul>
+    </div>
+    <div class="detail-group">
+      <div class="detail-group-title"><div class="detail-dot" style="background:var(--ember-orange)"></div>功能性细节</div>
+      <ul class="detail-list">
+        <li>内衬一体短裤（裙装标配，防走光功能）</li>
+        <li>肩背网眼拼接（透气散热区域可视化设计）</li>
+        <li>隐藏式球袋（腰侧 / 内裙口袋）</li>
+        <li>袖口/领口光迹图案印花（定位花，精准位置感）</li>
+        <li>网球专用下摆弹力带（防翻起，功能细节）</li>
+        <li>硅胶防滑内腰（运动中不移位）</li>
+        <li>UPF50+ 防晒面料（夏季球场专属保护）</li>
+      </ul>
+    </div>
+    <div class="detail-group">
+      <div class="detail-group-title"><div class="detail-dot" style="background:var(--gold)"></div>面料与工艺</div>
+      <ul class="detail-list">
+        <li>吸湿快干四面弹力主面料（云感系列，15分钟速干）</li>
+        <li>轻量外套梭织面料（防风防紫外，轻量感）</li>
+        <li>热转印/升华印花工艺（图案不影响面料弹性）</li>
+        <li>局部网眼透气贴条（肩胛骨/后腰散热区）</li>
+        <li>可持续再生纤维（recycled nylon）</li>
+        <li>提花/压纹底纹面料（视觉层次，高级感）</li>
+        <li>无缝平缝工艺（减少摩擦，提升舒适度）</li>
+      </ul>
+    </div>
+    <div class="detail-group">
+      <div class="detail-group-title"><div class="detail-dot" style="background:var(--volt)"></div>款式方向参考</div>
+      <ul class="detail-list">
+        <li><strong>经典Polo复活</strong>——70-80s Heritage Tennis，改良V翻领</li>
+        <li><strong>现代色块解构</strong>——Color-blocking Court，几何色块强视觉</li>
+        <li><strong>裙裤一体</strong>——Skirted Short 2-in-1，赛场街头两用</li>
+        <li><strong>轻量外套层叠</strong>——1/4拉链薄感梭织，配套系列</li>
+        <li><strong>运动连衣裙</strong>——不对称下摆腰线，品牌门面款</li>
+        <li><strong>速干背心</strong>——内搭单穿两用，基础系列</li>
+        <li><strong>配件系列</strong>——遮阳帽+运动袜，系列整合</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FLAT SKETCH SECTION -->
+<section id="flatsketch">
+  <div class="section-label">06 · 款式开发 — 正背视图</div>
+  <h2 class="section-title">款式平铺图<em>正 · 背视图</em></h2>
+  <p class="section-desc">服装款式平铺展示，无模特纯款式呈现，正视图与背视图并排，清晰还原剪裁结构、色块拼接与细节工艺</p>
+
+  <div class="flatsketch-frame">
+    <img src="正背视图生成.png" alt="正背视图款式图" class="flatsketch-img"
+         onerror="this.parentElement.classList.add('no-image')">
+    <div class="moodboard-placeholder">
+      <div class="moodboard-ph-icon">👗</div>
+      <div class="moodboard-ph-text">
+        正背视图图片加载失败，请确认 <code>正背视图生成.png</code> 与 HTML 在同一文件夹
+      </div>
+    </div>
+    <div class="flatsketch-caption">
+      <div class="flatsketch-caption-left">
+        <span class="flatsketch-label">FRONT VIEW</span>
+        <span class="flatsketch-sep">·</span>
+        <span class="flatsketch-label">BACK VIEW</span>
+      </div>
+      <span class="moodboard-tag">款式平铺图 · 正背视图</span>
+    </div>
+  </div>
+
+  <div class="moodboard-meta-row">
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--bone-white)"></div>
+      <div>
+        <div class="moodboard-meta-label">主体颜色</div>
+        <div class="moodboard-meta-val">骨白 #F5F0E8</div>
+      </div>
+    </div>
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--navy)"></div>
+      <div>
+        <div class="moodboard-meta-label">领口拼色</div>
+        <div class="moodboard-meta-val">暗藏青 #1A2744</div>
+      </div>
+    </div>
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--ember-orange)"></div>
+      <div>
+        <div class="moodboard-meta-label">滚边点缀</div>
+        <div class="moodboard-meta-val">燃橘 #FF5C2B</div>
+      </div>
+    </div>
+    <div class="moodboard-meta-item">
+      <div class="moodboard-meta-dot" style="background:var(--luminous-blue)"></div>
+      <div>
+        <div class="moodboard-meta-label">款式类型</div>
+        <div class="moodboard-meta-val">光迹 Polo 连衣裙 C01</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LINE SKETCH SECTION -->
+<section id="linesketch">
+  <div class="section-label">07 · 款式开发 — 专业线稿</div>
+  <h2 class="section-title">手绘款式<em>线稿图</em></h2>
+  <p class="section-desc">专业服装款式线稿，黑色线条白色背景，清晰呈现领口拼色区域、拉链走向、腰线结构、侧缝位置与内衬短裤细节</p>
+
+  <div class="linesketch-frame">
+    <img src="专业线稿.png" alt="专业手绘款式线稿" class="linesketch-img"
+         onerror="this.parentElement.classList.add('no-image')">
+    <div class="moodboard-placeholder">
+      <div class="moodboard-ph-icon">✏️</div>
+      <div class="moodboard-ph-text">
+        线稿图片加载失败，请确认 <code>专业线稿.png</code> 与 HTML 在同一文件夹
+      </div>
+    </div>
+    <div class="linesketch-tags">
+      <span class="linesketch-tag-item">领口拼色区域</span>
+      <span class="linesketch-tag-item">半开拉链位置</span>
+      <span class="linesketch-tag-item">腰线结构</span>
+      <span class="linesketch-tag-item">侧缝走向</span>
+      <span class="linesketch-tag-item">下摆波浪</span>
+      <span class="linesketch-tag-item">内衬短裤边线</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COLOR SCHEMES SECTION -->
+<section id="colorschemes">
+  <div class="section-label">08 · 款式开发 — 多配色方案</div>
+  <h2 class="section-title">配色方案<em>四色展示</em></h2>
+  <p class="section-desc">基于同一款式线稿，严格遵循撞色分割区域的四套配色方案，覆盖经典光场、暗夜追迹、冷光蓝域、夏日热场四大主题</p>
+
+  <div class="colorschemes-frame">
+    <img src="多配色方案.png" alt="多配色方案" class="colorschemes-img"
+         onerror="this.parentElement.classList.add('no-image')">
+    <div class="moodboard-placeholder">
+      <div class="moodboard-ph-icon">🎨</div>
+      <div class="moodboard-ph-text">
+        配色图片加载失败，请确认 <code>多配色方案.png</code> 与 HTML 在同一文件夹
+      </div>
+    </div>
+  </div>
+
+  <div class="colorschemes-row">
+    <div class="colorschemes-item">
+      <div class="colorschemes-swatches">
+        <div style="background:#F5F0E8"></div>
+        <div style="background:#1A2744"></div>
+        <div style="background:#0057FF"></div>
+        <div style="background:#FF5C2B"></div>
+      </div>
+      <div class="colorschemes-name">经典光场</div>
+      <div class="colorschemes-desc">骨白 · 暗藏青 · 光晕蓝 · 燃橘</div>
+    </div>
+    <div class="colorschemes-item">
+      <div class="colorschemes-swatches">
+        <div style="background:#1A2744"></div>
+        <div style="background:#F5F0E8"></div>
+        <div style="background:#FF5C2B"></div>
+        <div style="background:#D4A843"></div>
+      </div>
+      <div class="colorschemes-name">暗夜追迹</div>
+      <div class="colorschemes-desc">暗藏青 · 骨白 · 燃橘 · 金芒</div>
+    </div>
+    <div class="colorschemes-item">
+      <div class="colorschemes-swatches">
+        <div style="background:#0057FF"></div>
+        <div style="background:#F5F0E8"></div>
+        <div style="background:#D4E53C"></div>
+        <div style="background:#1A2744"></div>
+      </div>
+      <div class="colorschemes-name">冷光蓝域</div>
+      <div class="colorschemes-desc">光晕蓝 · 骨白 · 荧光柠 · 藏青</div>
+    </div>
+    <div class="colorschemes-item">
+      <div class="colorschemes-swatches">
+        <div style="background:#E8705A"></div>
+        <div style="background:#F5F0E8"></div>
+        <div style="background:#1A2744"></div>
+        <div style="background:#D4A843"></div>
+      </div>
+      <div class="colorschemes-name">夏日热场</div>
+      <div class="colorschemes-desc">珊瑚粉 · 骨白 · 藏青 · 金芒</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TENNIS PATTERN SECTION -->
+<section id="tennispattern">
+  <div class="section-label">09 · 图案开发 — TENNIS 印花图案</div>
+  <h2 class="section-title">TENNIS <em>图案设计</em></h2>
+  <p class="section-desc">以 TENNIS 为核心文字，结合速度弧线与球场几何元素的运动印花图案，适用于T恤正背面主印花位置</p>
+
+  <div class="tennispattern-wrap">
+    <div class="tennispattern-frame">
+      <img src="tennis图.png" alt="TENNIS 印花图案" class="tennispattern-img"
+           onerror="this.parentElement.classList.add('no-image')">
+      <div class="moodboard-placeholder">
+        <div class="moodboard-ph-icon">🎾</div>
+        <div class="moodboard-ph-text">
+          图片加载失败，请确认 <code>tennis图.png</code> 与 HTML 在同一文件夹
+        </div>
+      </div>
+    </div>
+    <div class="tennispattern-info">
+      <div class="tennispattern-block">
+        <div class="tennispattern-block-title">图案构成元素</div>
+        <ul class="tennispattern-list">
+          <li><span class="tp-dot blue"></span>TENNIS 核心文字</li>
+          <li><span class="tp-dot orange"></span>速度弧线轨迹</li>
+          <li><span class="tp-dot white"></span>球场几何线条</li>
+          <li><span class="tp-dot gold"></span>动感三角装饰</li>
+        </ul>
+      </div>
+      <div class="tennispattern-block">
+        <div class="tennispattern-block-title">应用位置</div>
+        <ul class="tennispattern-list">
+          <li><span class="tp-dot blue"></span>速干T恤正面胸前</li>
+          <li><span class="tp-dot orange"></span>连衣裙背部中心</li>
+          <li><span class="tp-dot white"></span>外套左胸压印</li>
+        </ul>
+      </div>
+      <div class="tennispattern-block">
+        <div class="tennispattern-block-title">工艺建议</div>
+        <ul class="tennispattern-list">
+          <li><span class="tp-dot blue"></span>热转印 / 升华印花</li>
+          <li><span class="tp-dot orange"></span>不影响面料弹性</li>
+          <li><span class="tp-dot white"></span>双色 / 三色版本可扩展</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKU SECTION -->
+<section id="sku">
+  <div class="section-label">10 · 品类架构</div>
+  <h2 class="section-title">SKU <em>品类规划</em></h2>
+  <p class="section-desc">核心款驱动品牌认知，延展款扩大消费场景，配件系列提升客单价与系列整合感</p>
+
+  <div class="sku-grid">
+    <div class="sku-card core">
+      <div class="sku-badge core">CORE</div>
+      <div class="sku-code">C01</div>
+      <div class="sku-name">光迹Polo连衣裙</div>
+      <div class="sku-desc">主推款，不对称色块，前胸半开拉链，背部光迹主印花，标志性系列门面款</div>
+    </div>
+    <div class="sku-card core">
+      <div class="sku-badge core">CORE</div>
+      <div class="sku-code">C02</div>
+      <div class="sku-name">迹·速干T+裙裤套装</div>
+      <div class="sku-desc">性价比主力款，套装购买驱动，图案T+色块裙裤，日常运动两用</div>
+    </div>
+    <div class="sku-card core">
+      <div class="sku-badge core">CORE</div>
+      <div class="sku-code">C03</div>
+      <div class="sku-name">暗夜轻量外套</div>
+      <div class="sku-desc">梭织防风，半开拉链，胸前光迹图案压印，层叠穿搭核心单品</div>
+    </div>
+    <div class="sku-card">
+      <div class="sku-badge ext">EXT</div>
+      <div class="sku-code">E01</div>
+      <div class="sku-name">基础速干背心</div>
+      <div class="sku-desc">内搭/单穿两用，肩部网眼拼接，延展款基础层</div>
+    </div>
+    <div class="sku-card">
+      <div class="sku-badge ext">EXT</div>
+      <div class="sku-code">E02</div>
+      <div class="sku-name">几何色块运动短裙</div>
+      <div class="sku-desc">配套下装，内置短裤，腰部隐藏球袋，几何撞色分割</div>
+    </div>
+    <div class="sku-card">
+      <div class="sku-badge ext">EXT</div>
+      <div class="sku-code">E03</div>
+      <div class="sku-name">高腰运动短裤</div>
+      <div class="sku-desc">裤装选择，侧面光迹装饰线，高腰修身剪裁</div>
+    </div>
+    <div class="sku-card">
+      <div class="sku-badge ext">EXT</div>
+      <div class="sku-code">E04</div>
+      <div class="sku-name">收口运动卫衣</div>
+      <div class="sku-desc">秋季延伸款，赛后保暖，系列配套图案刺绣</div>
+    </div>
+    <div class="sku-card">
+      <div class="sku-badge acc">ACC</div>
+      <div class="sku-code">A01</div>
+      <div class="sku-name">光迹遮阳帽</div>
+      <div class="sku-desc">球帽，系列图案刺绣，配件整合，客单价提升</div>
+    </div>
+    <div class="sku-card">
+      <div class="sku-badge acc">ACC</div>
+      <div class="sku-code">A02</div>
+      <div class="sku-name">图案运动袜</div>
+      <div class="sku-desc">提袜设计，图案提花，系列整合配件，高性价比引流</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- AI PROMPTS SECTION -->
+<section id="prompts">
+  <div class="section-label">11 · AI 提示词库</div>
+  <h2 class="section-title">完整<em>AI提示词</em>集合</h2>
+  <p class="section-desc">覆盖设计全工作流的精准提示词，可直接用于即梦、ComfyUI、Lovart、Midjourney 等工具</p>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot blue"></div>主题视觉大图 · KO页用图</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">即梦AI</span>
+        <span class="prompt-tool-badge">Midjourney</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p1">
+      一张时尚运动品牌主题概念视觉板，主题为"迹·光场"，网球运动女性，球场光线折射，中国现代设计感，几何光迹线条从球的轨迹延展铺满画面，暗蓝色和骨白色为主色，燃橘色点缀，右下角隐约可见网球球场线条，整体风格高级感、速度感、东方现代美学，16:9横版，黑暗质感背景，霓虹光感，动态构图，广告级别摄影质感
+      <button class="copy-btn" onclick="copyText('p1')">复制</button>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot blue"></div>款式平铺图 · 正背视图</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">即梦AI</span>
+        <span class="prompt-tool-badge">ComfyUI</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p2">
+      专业服装款式图，女子网球Polo连衣裙，正视图和背视图并排展示，白色纯净背景，无模特仅服装平铺展示，服装颜色骨白色为主体，领口深蓝色拼色设计，袖口橘色滚边，前胸半开拉链，腰部轻微A字廓形，内置短裤隐约可见，专业技术款式图风格，细节清晰可见，高清，设计稿风格
+      <button class="copy-btn" onclick="copyText('p2')">复制</button>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot orange"></div>专业线稿 · 正背视图</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">ComfyUI</span>
+        <span class="prompt-tool-badge">Lovart</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p3">
+      专业手绘服装款式图线稿，女子网球连衣裙，黑色线条白色背景，正面视图和背面视图，包含以下细节标注线：领口拼色区域、拉链位置、腰线、侧缝位置、下摆走向、内衬短裤边缘线，专业服装设计CAD风格，清晰利落，工业制图感
+      <button class="copy-btn" onclick="copyText('p3')">复制</button>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot blue"></div>多配色方案 · 四色展示</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">即梦AI</span>
+        <span class="prompt-tool-badge">Lovart</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p4">
+      服装配色方案展示图，同一款女子网球Polo连衣裙线稿，四个配色版本并排展示，白色背景，简洁排版：配色1骨白主体+暗藏青拼色+橘色滚边（经典光场）；配色2暗藏青主体+骨白拼色+金色滚边（暗夜追迹）；配色3光晕蓝主体+骨白拼色+荧光柠檬滚边（冷光蓝域）；配色4珊瑚粉主体+骨白拼色+暗藏青滚边（夏日热场），每款配色下方标注色号，专业服装配色方案图，高清
+      <button class="copy-btn" onclick="copyText('p4')">复制</button>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot orange"></div>TENNIS 图案设计</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">Adobe Firefly</span>
+        <span class="prompt-tool-badge">即梦AI</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p5">
+      运动服装图案设计，以TENNIS为中心英文字体，周围组合以下元素：速度线条（平行弧线）、网球轨迹弧线、简洁几何三角形装饰，整体构图有运动感和张力，色彩方案：深蓝色背景或白色背景可选，橘色和蓝色为主色调，图案线条简洁不繁复，适合服装印花，矢量设计感，尺寸：正方形1:1，高清，可用于上衣胸前/背部印花
+      <button class="copy-btn" onclick="copyText('p5')">复制</button>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot blue"></div>模特穿搭合成图</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">Lovart</span>
+        <span class="prompt-tool-badge">ComfyUI</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p6">
+      运动品牌服装广告摄影，亚裔女性模特，穿着网球Polo连衣裙，骨白色主体+深蓝领口+橘色滚边，背景：现代网球场，光线明亮干净，模特姿态自然运动感，手持球拍，拍摄风格：品牌广告大片，干净利落，时尚运动感，不要过度修图，真实质感，高清8K
+      <button class="copy-btn" onclick="copyText('p6')">复制</button>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ECOMM SECTION -->
+<section id="ecomm">
+  <div class="section-label">12 · 电商详情页</div>
+  <h2 class="section-title">天猫详情页<em>内容框架</em></h2>
+  <p class="section-desc">10屏完整视觉框架，从首屏品牌焦点到尾页服务保障，构建高转化电商视觉体验</p>
+
+  <div class="ecomm-row">
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">01 · BANNER</div>
+        <div class="ecomm-screen-title">主图焦点</div>
+        <div class="ecomm-screen-desc">白底产品图+3个核心卖点标签，速干/弹力/防晒</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#FF5C2B,#D4A843)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">02 · STORY</div>
+        <div class="ecomm-screen-title">品牌故事</div>
+        <div class="ecomm-screen-desc">「迹·光场」主题叙事，东方运动精神品牌价值</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#D4A843,#0057FF)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">03 · FEATURE</div>
+        <div class="ecomm-screen-title">3大核心卖点</div>
+        <div class="ecomm-screen-desc">图标+短文案，速干科技/四面弹力/UPF50+防晒</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#0057FF,#D4E53C)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">04 · DETAIL</div>
+        <div class="ecomm-screen-title">6处细节展示</div>
+        <div class="ecomm-screen-desc">领口/面料/内衬/图案/球袋/下摆六宫格</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#D4E53C,#FF5C2B)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">05 · TECH</div>
+        <div class="ecomm-screen-title">面料科技</div>
+        <div class="ecomm-screen-desc">成分+测试数据图表，吸湿/弹力/透气可视化</div>
+      </div>
+    </div>
+  </div>
+  <div class="ecomm-row">
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#B0B8C1,#0057FF)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">06 · SIZE</div>
+        <div class="ecomm-screen-title">尺码与版型</div>
+        <div class="ecomm-screen-desc">正背面平铺图+尺码表+版型说明，亚洲版型</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#FF5C2B,#D4A843)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">07 · MODEL</div>
+        <div class="ecomm-screen-title">上身效果</div>
+        <div class="ecomm-screen-desc">多角度模特实拍，球场+日常场景双线展示</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#D4A843,#0057FF)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">08 · MATCH</div>
+        <div class="ecomm-screen-title">搭配推荐</div>
+        <div class="ecomm-screen-desc">同系列单品搭配，套装购买引导，提升客单价</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#0057FF,#B0B8C1)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">09 · UGC</div>
+        <div class="ecomm-screen-title">用户评价</div>
+        <div class="ecomm-screen-desc">真实UGC图片+评价文字，尺码/面料/颜值维度</div>
+      </div>
+    </div>
+    <div class="ecomm-screen">
+      <div class="ecomm-num-bar" style="background:linear-gradient(90deg,#B0B8C1,#F5F0E8)"></div>
+      <div class="ecomm-content">
+        <div class="ecomm-screen-num">10 · SERVICE</div>
+        <div class="ecomm-screen-title">品牌与保障</div>
+        <div class="ecomm-screen-desc">李宁品牌理念+7天退换+正品保障尾页</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- VIDEO SECTION -->
+<section id="video">
+  <div class="section-label">13 · 视频分镜</div>
+  <h2 class="section-title">10秒推广<em>视频分镜</em></h2>
+  <p class="section-desc">6个精准分镜，从冲击力开场到品牌落地，10秒完整传递「迹·光场」品牌主张</p>
+
+  <div class="storyboard-row">
+    <div class="story-frame">
+      <div class="story-visual" style="background:linear-gradient(135deg,#060C18,#0A1530);">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="15" fill="none" stroke="#F5F0E8" stroke-width="2"/>
+          <circle cx="40" cy="40" r="8" fill="#F5F0E8" opacity="0.3"/>
+          <path d="M40,25 L40,5" stroke="#0057FF" stroke-width="2"/>
+          <path d="M30,28 L15,15" stroke="#0057FF" stroke-width="1.5" opacity="0.7"/>
+          <path d="M55,28 L65,15" stroke="#FF5C2B" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="story-info">
+        <div class="story-time">0:00 - 0:01</div>
+        <div class="story-name">开场锁眼</div>
+        <div class="story-desc">网球击打球网慢动作特写，强冲击感</div>
+      </div>
+    </div>
+    <div class="story-frame">
+      <div class="story-visual" style="background:linear-gradient(135deg,#0A1530,#1A2744);">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <defs>
+            <linearGradient id="lg3" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#0057FF;stop-opacity:0.2"/>
+              <stop offset="100%" style="stop-color:#0057FF;stop-opacity:1"/>
+            </linearGradient>
+          </defs>
+          <path d="M10,70 Q30,20 70,30" stroke="url(#lg3)" stroke-width="3" fill="none"/>
+          <path d="M15,75 Q40,25 75,35" stroke="url(#lg3)" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <polygon points="70,30 80,20 80,40" fill="#0057FF" opacity="0.8"/>
+          <text x="15" y="20" font-size="8" fill="#D4A843" opacity="0.8" font-family="Helvetica" letter-spacing="2">MARK</text>
+        </svg>
+      </div>
+      <div class="story-info">
+        <div class="story-time">0:01 - 0:02.5</div>
+        <div class="story-name">主视觉登场</div>
+        <div class="story-desc">光迹轨迹扩散成品牌几何图案，音乐律动起</div>
+      </div>
+    </div>
+    <div class="story-frame">
+      <div class="story-visual" style="background:linear-gradient(135deg,#0F1A30,#0A1020);">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <ellipse cx="40" cy="45" rx="18" ry="28" fill="none" stroke="#F5F0E8" stroke-width="1.5" opacity="0.6"/>
+          <line x1="31" y1="20" x2="49" y2="20" stroke="#0057FF" stroke-width="3"/>
+          <line x1="40" y1="70" x2="40" y2="80" stroke="#F5F0E8" stroke-width="2" opacity="0.4"/>
+          <rect x="28" y="17" width="24" height="6" rx="3" fill="none" stroke="#FF5C2B" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="story-info">
+        <div class="story-time">0:02.5 - 0:05</div>
+        <div class="story-name">产品出场</div>
+        <div class="story-desc">模特走入球场，服装细节随运动展示</div>
+      </div>
+    </div>
+    <div class="story-frame">
+      <div class="story-visual" style="background:linear-gradient(135deg,#080C14,#0D1520);">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <text x="40" y="30" font-size="18" font-weight="900" fill="#0057FF" text-anchor="middle" opacity="0.9">弹</text>
+          <text x="40" y="52" font-size="18" font-weight="900" fill="#FF5C2B" text-anchor="middle" opacity="0.9">干</text>
+          <text x="40" y="74" font-size="18" font-weight="900" fill="#D4A843" text-anchor="middle" opacity="0.9">护</text>
+          <line x1="10" y1="37" x2="70" y2="37" stroke="#F5F0E8" stroke-width="0.5" opacity="0.2"/>
+          <line x1="10" y1="59" x2="70" y2="59" stroke="#F5F0E8" stroke-width="0.5" opacity="0.2"/>
+        </svg>
+      </div>
+      <div class="story-info">
+        <div class="story-time">0:05 - 0:07.5</div>
+        <div class="story-name">功能展示</div>
+        <div class="story-desc">三帧快切，弹力/速干/防晒关键词对应动作</div>
+      </div>
+    </div>
+    <div class="story-frame">
+      <div class="story-visual" style="background:linear-gradient(135deg,#0A1220,#1A2744);">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <ellipse cx="40" cy="42" rx="16" ry="24" fill="none" stroke="#F5F0E8" stroke-width="1.5" opacity="0.7"/>
+          <line x1="32" y1="18" x2="48" y2="18" stroke="#0057FF" stroke-width="2.5"/>
+          <rect x="30" y="16" width="20" height="5" rx="2" fill="none" stroke="#0057FF" stroke-width="0.5" opacity="0.5"/>
+          <circle cx="40" cy="42" r="4" fill="#FF5C2B" opacity="0.6"/>
+          <path d="M30,70 Q40,65 50,70" stroke="#D4A843" stroke-width="1" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="story-info">
+        <div class="story-time">0:07.5 - 0:09</div>
+        <div class="story-name">品牌落地</div>
+        <div class="story-desc">模特走向镜头，LOGO标识入场，系列标注</div>
+      </div>
+    </div>
+    <div class="story-frame">
+      <div class="story-visual" style="background:linear-gradient(135deg,#060A12,#0A1020);">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <text x="40" y="35" font-size="11" font-weight="900" fill="#F5F0E8" text-anchor="middle" letter-spacing="2" font-family="Helvetica">LI-NING</text>
+          <text x="40" y="52" font-size="8" fill="#0057FF" text-anchor="middle" letter-spacing="3" font-family="Helvetica">27Q3 TENNIS</text>
+          <text x="40" y="68" font-size="7" fill="#FF5C2B" text-anchor="middle" letter-spacing="1">点击购买 →</text>
+          <rect x="5" y="5" width="70" height="70" rx="4" fill="none" stroke="#1E2D4A" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="story-info">
+        <div class="story-time">0:09 - 0:10</div>
+        <div class="story-name">行动引导</div>
+        <div class="story-desc">产品白底图+系列款式排列+购买引导</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-card" style="margin-top:40px">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot orange"></div>口播/字幕文案</div>
+      <div class="prompt-tools-row"><span class="prompt-tool-badge" style="border-color:rgba(255,92,43,0.3);color:var(--ember-orange);background:rgba(255,92,43,0.1)">视频脚本</span></div>
+    </div>
+    <div class="prompt-body" id="p7">
+「一击，留下光的轨迹——
+李宁27Q3网球系列，迹·光场，
+速干弹力，UPF50+防晒保护，
+用东方力量，书写你的球场故事。
+李宁，一切皆有可能。」
+      <button class="copy-btn" onclick="copyText('p7')" style="border-color:rgba(255,92,43,0.3);color:var(--ember-orange);background:rgba(255,92,43,0.1)">复制</button>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-title-text"><div class="prompt-dot blue"></div>文生视频提示词</div>
+      <div class="prompt-tools-row">
+        <span class="prompt-tool-badge">可灵</span>
+        <span class="prompt-tool-badge">Runway</span>
+        <span class="prompt-tool-badge">Pika</span>
+      </div>
+    </div>
+    <div class="prompt-body" id="p8">
+      10秒运动品牌宣传短视频，李宁网球系列，开场：网球击打慢动作特写，光迹轨迹几何扩散；中段：亚裔女性模特穿着骨白深蓝网球连衣裙在球场挥拍，多角度快切展示服装细节；结尾：品牌LOGO出现，产品正面定格；整体风格：高速感、光影感、东方运动美学、现代时尚；色调：蓝白橘主色，球场绿色自然背景；背景音乐：节奏感强的电子运动音乐；分辨率：4K，9:16竖版
+      <button class="copy-btn" onclick="copyText('p8')">复制</button>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROMPT INDEX -->
+<section>
+  <div class="section-label">14 · 工具索引</div>
+  <h2 class="section-title">AI 提示词<em>工具索引</em></h2>
+  <p class="section-desc">按工作流阶段对应的AI工具与提示词，复制即用</p>
+
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;overflow:hidden;">
+    <table class="prompt-table">
+      <thead>
+        <tr>
+          <th>用途</th>
+          <th>推荐工具</th>
+          <th>阶段</th>
+          <th>优先级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>KO主题视觉大图</td><td>即梦 / Midjourney</td><td>设计KO</td><td><span class="pt-badge blue">必做</span></td></tr>
+        <tr><td>Moodboard生成</td><td>即梦 / Canva Magic</td><td>设计提案</td><td><span class="pt-badge blue">必做</span></td></tr>
+        <tr><td>图案灵感板</td><td>DALL-E 3 / 即梦</td><td>设计提案</td><td><span class="pt-badge blue">必做</span></td></tr>
+        <tr><td>款式平铺图（正背视图）</td><td>即梦 / ComfyUI</td><td>款式开发</td><td><span class="pt-badge blue">必做</span></td></tr>
+        <tr><td>专业手绘线稿</td><td>ComfyUI / Lovart</td><td>款式开发</td><td><span class="pt-badge blue">必做</span></td></tr>
+        <tr><td>多配色方案</td><td>即梦 / Lovart</td><td>款式开发</td><td><span class="pt-badge orange">重要</span></td></tr>
+        <tr><td>TENNIS图案设计</td><td>即梦 / Adobe Firefly</td><td>图案开发</td><td><span class="pt-badge orange">重要</span></td></tr>
+        <tr><td>模特穿搭合成</td><td>ComfyUI / Lovart</td><td>模特模拟</td><td><span class="pt-badge orange">重要</span></td></tr>
+        <tr><td>参考图转提示词</td><td>ChatGPT / Claude</td><td>全流程</td><td><span class="pt-badge gold">工具</span></td></tr>
+        <tr><td>电商详情页长图</td><td>即梦 / DALL-E</td><td>产品后期</td><td><span class="pt-badge orange">重要</span></td></tr>
+        <tr><td>10秒推广视频</td><td>可灵 / Runway / Pika</td><td>产品后期</td><td><span class="pt-badge blue">必做</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <strong>LI-NING × DESIGN STUDIO</strong><br>
+    <span>27Q3 女子网球系列 · 迹·光场</span>
+  </div>
+  <div class="footer-meta">
+    设计简报 v1.0 · 2026.06.11<br>
+    KO → 设计提案 → 款式开发 → 产品后期<br>
+    Complete Design Workflow Brief
+  </div>
+</footer>
+
+</div><!-- /content-wrap -->
+
+<script>
+// ── CANVAS LIGHT TRAILS ──
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, trails = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Trail {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 1.5;
+    this.vy = (Math.random() - 0.5) * 1.5;
+    this.len = 80 + Math.random() * 120;
+    this.life = 0;
+    this.maxLife = 180 + Math.random() * 120;
+    this.hue = Math.random() > 0.6 ? 210 : (Math.random() > 0.5 ? 20 : 210);
+    this.points = [];
+    this.width = 0.5 + Math.random() * 1.5;
+  }
+  update() {
+    this.life++;
+    this.vx += (Math.random() - 0.5) * 0.1;
+    this.vy += (Math.random() - 0.5) * 0.1;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.points.push({ x: this.x, y: this.y });
+    if (this.points.length > this.len) this.points.shift();
+    if (this.life > this.maxLife || this.x < -200 || this.x > W + 200 || this.y < -200 || this.y > H + 200) this.reset();
+  }
+  draw() {
+    if (this.points.length < 2) return;
+    const prog = this.life / this.maxLife;
+    const alpha = prog < 0.2 ? prog / 0.2 : prog > 0.8 ? (1 - prog) / 0.2 : 1;
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+    for (let i = 1; i < this.points.length; i++) {
+      ctx.lineTo(this.points[i].x, this.points[i].y);
+    }
+    const gradient = ctx.createLinearGradient(
+      this.points[0].x, this.points[0].y,
+      this.points[this.points.length - 1].x, this.points[this.points.length - 1].y
+    );
+    const color = this.hue === 20 ? '255,92,43' : this.hue === 210 ? '0,87,255' : '212,168,67';
+    gradient.addColorStop(0, `rgba(${color},0)`);
+    gradient.addColorStop(1, `rgba(${color},${alpha * 0.6})`);
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = this.width;
+    ctx.stroke();
+  }
+}
+
+for (let i = 0; i < 25; i++) {
+  const t = new Trail();
+  t.life = Math.floor(Math.random() * t.maxLife);
+  trails.push(t);
+}
+
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  trails.forEach(t => { t.update(); t.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ── SCROLL PROGRESS ──
+const scrollBar = document.getElementById('scrollBar');
+window.addEventListener('scroll', () => {
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = (window.scrollY / max) * 100;
+  scrollBar.style.transform = `scaleX(${pct / 100})`;
+});
+
+// ── COPY TEXT ──
+function copyText(id) {
+  const el = document.getElementById(id);
+  const text = el.innerText.replace('复制', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.querySelector('.copy-btn');
+    const orig = btn.textContent;
+    btn.textContent = '已复制✓';
+    btn.style.background = 'rgba(0,200,100,0.2)';
+    btn.style.borderColor = 'rgba(0,200,100,0.4)';
+    btn.style.color = '#00c864';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+
+// ── INTERSECTION OBSERVER for fade-in ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.card, .color-swatch, .pattern-card, .sku-card, .story-frame, .ecomm-screen, .palette-combo').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
